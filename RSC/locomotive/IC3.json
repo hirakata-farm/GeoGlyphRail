@@ -1,0 +1,5 @@
+{
+ "size" : [ 20.48, 17.48, 20.92 ],
+ "interval" : [ 18.44, 19.06 ],
+ "model" : [ "locomotive/IC3-car1.glb","locomotive/IC3-car2.glb","locomotive/IC3-car3.glb" ]
+}

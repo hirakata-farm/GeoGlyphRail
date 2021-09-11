@@ -1,0 +1,5 @@
+{
+ "size" : [ 8.0, 8.0, 8.0, 8.0, 8.0 ],
+ "interval" : [ 7.92, 7.92, 7.92, 7.92 ],
+ "model" : [ "locomotive/tachikoma.glb", "locomotive/tachikoma.glb", "locomotive/tachikoma.glb", "locomotive/tachikoma.glb", "locomotive/tachikoma.glb" ]
+}

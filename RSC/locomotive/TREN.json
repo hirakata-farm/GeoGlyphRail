@@ -1,0 +1,6 @@
+{
+ "size" : [ 11.0, 11.25, 11.0 ],
+ "interval" : [ 12.0, 11.1 ],
+ "model" : [ "locomotive/RegioCitadis-car1.glb","locomotive/RegioCitadis-car2.glb","locomotive/RegioCitadis-car3.glb" ]
+}
+

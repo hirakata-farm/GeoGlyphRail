@@ -1,0 +1,5 @@
+{
+ "size" : [ 27.93, 25.07, 25.02, 25.12, 24.95, 25.03, 25.12, 25.12, 25.12, 25.03, 25.12, 24.95, 25.03, 250.2, 25.07, 27.02 ],
+ "interval" : [ 26.05, 25.08, 25.05, 24.63, 25.40, 25.07, 25.12, 25.12, 25.08,25.07, 24.63, 25.40, 25.04, 25.01, 25.62 ],
+ "model" : [ "locomotive/JR700-simple-car1.glb","locomotive/JR700-simple-car2.glb","locomotive/JR700-simple-car3.glb","locomotive/JR700-simple-car4.glb","locomotive/JR700-simple-car5.glb","locomotive/JR700-simple-car6.glb","locomotive/JR700-simple-car4.glb","locomotive/JR700-simple-car4.glb","locomotive/JR700-simple-car4.glb","locomotive/JR700-simple-car6.glb","locomotive/JR700-simple-car4.glb","locomotive/JR700-simple-car5.glb","locomotive/JR700-simple-car6.glb","locomotive/JR700-simple-car3.glb","locomotive/JR700-simple-car2.glb","locomotive/JR700-simple-car16.glb" ]
+}

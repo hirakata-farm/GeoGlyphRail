@@ -1,0 +1,5 @@
+{
+ "size" : [ 25.79, 24.9, 24.9, 25.7 ],
+ "interval" : [ 25.4, 25.0, 25.5 ],
+ "model" : [ "locomotive/ER-200-car1.glb","locomotive/ER-200-car2.glb","locomotive/ER-200-car3.glb","locomotive/ER-200-car4.glb" ]
+}

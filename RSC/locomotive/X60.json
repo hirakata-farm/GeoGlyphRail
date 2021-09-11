@@ -1,0 +1,6 @@
+{
+ "size" : [ 19.76, 15.8, 15.8, 15.8, 15.8, 19.74 ],
+ "interval" : [ 16.53, 14.64, 17.14, 15.20, 17.76 ],
+ "model" : [ "locomotive/X60-car1.glb","locomotive/X60-car2.glb","locomotive/X60-car3.glb","locomotive/X60-car5.glb","locomotive/X60-car6.glb" ]
+}
+

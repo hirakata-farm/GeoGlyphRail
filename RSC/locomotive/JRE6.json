@@ -1,0 +1,5 @@
+{
+ "size" : [ 22.9, 20.29, 20.5, 20.47, 20.47, 20.3, 22.93 ],
+ "interval" : [ 21.36, 20.03, 21.17, 20.23, 20.84, 20.93 ],
+ "model" : [ "locomotive/JR-E6-simple-car1.glb","locomotive/JR-E6-simple-car2.glb","locomotive/JR-E6-simple-car3.glb","locomotive/JR-E6-simple-car4.glb","locomotive/JR-E6-simple-car5.glb","locomotive/JR-E6-simple-car6.glb","locomotive/JR-E6-simple-car7.glb" ]
+}

@@ -1,0 +1,5 @@
+{
+ "size" : [ 16.75,28.75,28.75,28.77,28.67,28.86,28.69 ],
+ "interval" : [ 22.81,28.73,28.82,28.67,28.75,28.88 ],
+ "model" : [ "locomotive/DB-Class-103-car1-g.glb","locomotive/DB-Class-103-car2-g.glb","locomotive/DB-Class-103-car3-g.glb","locomotive/DB-Class-103-car4-g.glb","locomotive/DB-Class-103-car5-g.glb","locomotive/DB-Class-103-car6-g.glb","locomotive/DB-Class-103-car7-g.glb"]
+}

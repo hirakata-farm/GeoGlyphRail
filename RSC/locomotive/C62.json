@@ -1,0 +1,5 @@
+{
+ "size" : [ 13.23, 8.10, 19.92, 19.92, 19.92,19.92 ],
+ "interval" : [ 10.86, 14.16, 19.96, 19.96,19.96 ],
+ "model" : [ "locomotive/C62-simple-car1.glb","locomotive/C62-simple-car2.glb","locomotive/C62-simple-car3.glb","locomotive/C62-simple-car3.glb","locomotive/C62-simple-car3.glb","locomotive/C62-simple-car4.glb" ]
+}

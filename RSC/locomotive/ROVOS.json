@@ -1,0 +1,5 @@
+{
+ "size" : [ 19.27, 19.27, 23.68, 23.68, 23.68, 23.68, 23.68  ],
+ "interval" : [ 19.16, 21.54, 23.61, 23.61, 23.61, 23.61 ],
+ "model" : [ "locomotive/ROVOS-car1.glb","locomotive/ROVOS-car1.glb","locomotive/ROVOS-car3.glb","locomotive/ROVOS-car3.glb","locomotive/ROVOS-car3.glb","locomotive/ROVOS-car3.glb","locomotive/ROVOS-car3.glb" ]
+}

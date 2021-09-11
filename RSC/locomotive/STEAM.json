@@ -1,0 +1,5 @@
+{
+ "size" : [ 5.29, 6.71 ],
+ "interval" : [ 5.66 ],
+ "model" : [ "locomotive/SL-car1.glb","locomotive/SL-car2.glb" ]
+}

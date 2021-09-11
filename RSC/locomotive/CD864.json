@@ -1,0 +1,6 @@
+{
+ "size" : [ 15.37, 25.4 ],
+ "interval" : [ 20.66 ],
+ "model" : [ "locomotive/CD864DMU-car1.glb","locomotive/CD864DMU-car2.glb" ]
+}
+

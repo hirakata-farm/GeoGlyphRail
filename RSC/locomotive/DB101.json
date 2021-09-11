@@ -1,0 +1,5 @@
+{
+ "size" : [ 15.07, 27.71, 27.71, 27.71, 27.71, 27.71 ],
+ "interval" : [ 21.37, 27.79, 27.86, 27.81, 27.81 ],
+ "model" : [ "locomotive/DB101-car1.glb","locomotive/DB101-car2.glb","locomotive/DB101-car3.glb","locomotive/DB101-car4.glb", "locomotive/DB101-car4.glb","locomotive/DB101-car4.glb" ]
+}

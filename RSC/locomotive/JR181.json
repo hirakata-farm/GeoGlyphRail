@@ -1,0 +1,5 @@
+{
+ "size" : [ 20.82, 20.8, 20.8, 20.8, 20.8, 20.8 ],
+ "interval" : [ 21.0, 20.79, 20.8, 20.8, 20.7 ],
+ "model" : [ "locomotive/jr181-car1.glb","locomotive/jr181-car2.glb","locomotive/jr181-car3.glb","locomotive/jr181-car4.glb","locomotive/jr181-car5.glb","locomotive/jr181-car6.glb" ]
+}

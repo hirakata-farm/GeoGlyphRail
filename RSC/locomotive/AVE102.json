@@ -1,0 +1,6 @@
+{
+ "size" : [ 19.08, 21.75, 18.69, 18.73, 18.77, 18.77, 18.77, 21.81, 19.07 ],
+ "interval" : [ 20.66, 19.00, 18.72, 18.99, 20.52, 18.75, 19.10, 20.66 ],
+ "model" : [ "locomotive/AVE102-car1.glb","locomotive/AVE102-car2.glb","locomotive/AVE102-car3.glb","locomotive/AVE102-car4.glb","locomotive/AVE102-car5.glb","locomotive/AVE102-car6.glb","locomotive/AVE102-car7.glb","locomotive/AVE102-car8.glb","locomotive/AVE102-car9.glb" ]
+}
+

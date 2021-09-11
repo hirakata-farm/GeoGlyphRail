@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html data-attr-t lang-t="attribute.lang">
+<head>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-64986417-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'UA-64986417-1');
+        </script>
+
+  <meta charset="UTF-8">
+  <title>Geoglyph Rail Timetable</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="description" data-attr-t content-t="attribute.desc" lang-t="attribute.lang">
+  <meta name="keywords" data-attr-t content-t="attribute.keywords" lang-t="attribute.lang"/>
+
+  <!-- Jquery -->
+  <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+  
+  <!-- Materialize -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+  <!-- Jexcel -->
+  <script src="https://bossanova.uk/jexcel/v4/jexcel.js"></script>
+  <link rel="stylesheet" href="https://bossanova.uk/jexcel/v4/jexcel.css" type="text/css" />
+  <script src="https://bossanova.uk/jsuites/v3/jsuites.js"></script>
+  <link rel="stylesheet" href="https://bossanova.uk/jsuites/v3/jsuites.css" type="text/css" />
+
+  <link rel="stylesheet" type="text/css" href="../css/ghrailtimetable.css">
+</head>
+
+<body>
+  <nav>
+    <div class="nav-wrapper">
+        <ul class="left">
+          <li><img src="../images/Geoglyph-logo-s-l.png" style="height:38px;"></li>
+	  <li>
+            <div class="preloader-wrapper small" id="gh_loader" style="width:16px;height:16px;">
+              <div class="spinner-layer spinner-green-only">
+                <div class="circle-clipper left">
+                  <div class="circle"></div>
+                </div><div class="gap-patch">
+                  <div class="circle"></div>
+                </div><div class="circle-clipper right">
+                  <div class="circle"></div>
+                </div>
+              </div>
+          </div></li>
+          <li><a class="waves-effect waves-light modal-trigger" href="#gh_settingmodal"><i class="small material-icons left">settings</i></a></li>
+          <li><i class="small material-icons left">train</i><span id="gh_lineinformation" style="color:#b0bec5">N/A</span>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+	  <li><i class="small material-icons left">schedule</i><span id="gh_displayclock">00:00</span>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+          <li><i class="small material-icons left">linear_scale</i><span id="gh_displaylines"></span>&nbsp;&nbsp;&nbsp;&nbsp;</li>
+          <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</li>
+ 	  <li><a class="waves-effect waves-light btn" id="gh_updatebutton" >Update <i class="material-icons left">update</i></a></li>
+        </ul>
+        <ul class="right">
+          <li><a href="https://www.youtube.com/channel/UCPJB_FOkmHItkeFE3sO_blw" class="right"><i class="material-icons">videocam</i></a></li>
+          <li><a href="index.html" class="right"><i class="material-icons">home</i></a></li>
+          <li><a class="waves-effect waves-light modal-trigger" href="#gh_aboutmodal"><i class="material-icons">help_outline</i></a></li>
+        </ul>
+    </div>
+  </nav>
+  <div class="row">
+      <ul id="time-tabs" class="tabs">
+          <li class="tab col s4"><a href="#time-tab-0"><i class="small material-icons">directions</i><span id="gh_displaydirection_0"></span> timetable</a></li>
+          <li class="tab col s4"><a href="#time-tab-1"><i class="small material-icons">directions</i><span id="gh_displaydirection_1"></span> timetable</a></li>
+          <li class="tab col s4"><a class="active" href="#time-tab-2"><i class="small material-icons">show_chart</i>Diagram</a></li>
+      </ul>
+      <div id="time-tab-0" class="col s12">
+          <div id="spreadsheet_0"></div>  
+      </div>
+      <div id="time-tab-1" class="col s12">
+          <div id="spreadsheet_1"></div>  
+      </div>
+      <div id="time-tab-2" class="col s12">
+          <div id="gh_diagram"></div>
+      </div>
+  </div>
+  <ul id="gh_datadropdown" class="dropdown-content">
+      <li><a href="javascript:ghOnclickTimeUpdate();"><i class="material-icons left">update</i><span data-t="timetable.update"></span></a></li>
+      <li class="divider"></li>
+      <li><a href="javascript:ghOnclickTimeDownload();"><i class="material-icons left">file_download</i><span data-t="timetable.download"></span></a></li>
+  </ul>
+  <!--  Drop Down Content -->
+  
+  <!-- Footer -->
+  <footer class="page-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <!--  Left Side  -->
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <!-- geoglyph2 -->
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-3454291972460940"
+               data-ad-slot="2031507139"
+               data-ad-format="auto"
+               data-full-width-responsive="true"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+        <div class="col l6 s12">
+          <!--  Right Side -->
+          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+          <!-- geoglyph2 -->
+          <ins class="adsbygoogle"
+               style="display:block"
+               data-ad-client="ca-pub-3454291972460940"
+               data-ad-slot="2031507139"
+               data-ad-format="auto"
+               data-full-width-responsive="true"></ins>
+          <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+          </script>
+        </div>
+      </div>
+    </div>
+    <div class="footer-copyright">
+      <div class="container">
+        © 2021 Copyright Geoglyph Rail Timetable
+        <!--  <a class="grey-text text-lighten-4 right" href="#!">More Links</a> -->
+      </div>
+    </div>
+  </footer>
+  <!-- Footer -->
+
+
+  <!-- Setting Modal Structure -->
+  <div id="gh_settingmodal" class="modal" style="height:600px;width:600px;">
+    <div class="modal-content">
+      <h4 data-t="timetable.underconstruction"></h4>
+      <div><span data-t>timetable.minutesparam</span>:&nbsp;&nbsp;
+        <input type="number" name="unitcalcminutes" id="gh_unitcalcminutes" value="60" min="1" max="600" step="1" style="width:64px;">[min]
+      </div>      
+      <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect btn blue-grey" data-t="modal.no"></a>
+        <a href="javascript:ghSettingModalOK();" class="modal-close waves-effect waves-green btn"><i class="material-icons right">send</i><span data-t="modal.ok"></span></a>
+      </div>
+    </div>
+  </div>
+  <!-- Setting Modal Structure -->
+
+  <!-- Colmun Header Modal Structure -->
+  <div id="gh_trainidmodal" class="modal" style="height:400px;width:400px;">
+    <div class="modal-content">
+      <h4 data-t="timetable.changetrainid"></h4>
+      <div class="input-field">
+        <input placeholder="Train ID" id="gh_trainid" type="text">
+        <label for="gh_trainid" id="gh_trainid_label" data-t="timetable.trainid"></label>
+	<input id="gh_trainid_prev" type="hidden" value="">
+	<input id="gh_trainid_column" type="hidden" value="">
+        <input id="gh_trainid_columntab" type="hidden" value="">
+      </div>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect btn blue-grey" data-t="modal.no"></a>
+        <a href="javascript:ghRenameTrainIDModalOK();" class="modal-close waves-effect waves-green btn" data-t="modal.ok"></a>
+      </div>
+    </div>
+  </div>
+  <!-- Column Header Modal Structure -->
+
+  <!-- delete confirmation Modal Structure -->
+  <div id="gh_deletetrainconfirmmodal" class="modal" style="height:400px;width:400px;">
+    <div class="modal-content">
+      <h4 data-t="timetable.reconfirm"></h4>
+      <div id="gh_deletetrain"></div>
+      <span data-t="timetable.reconfirmmsg"></span>
+      <input id="gh_deletetraincolumn" type="hidden" value="">
+      <input id="gh_deletetraincolumntab" type="hidden" value="">
+      <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect btn blue-grey" data-t="modal.no"></a>
+        <a href="javascript:ghDeleteTrainColumnModalOK();" class="modal-close waves-effect waves-green btn" data-t="modal.ok"></a>
+      </div>
+    </div>
+  </div>
+  <!-- Delete confirmation Modal Structure -->
+
+  <!-- train marker Modal Structure -->
+  <div id="gh_trainmarkermodal" class="modal" style="height:600px;width:620px;">
+    <div class="modal-content">
+      <h4 data-t="timetable.set2dmarker"></h4>
+      <input id="gh_marker_trainid" type="hidden" value="">
+      <input id="gh_marker_trainidtab" type="hidden" value="">
+      <div id="gh_marker_content"></div>
+      <ul class="pagination">
+	<li name="markerpage" class="disabled" id="marker_page_prev"><a href="javascript:ghMarkerPage(-101);"><i class="material-icons">chevron_left</i></a></li>
+	<li name="markerpage" class="active" id="marker_page_1"><a href="javascript:ghMarkerPage(1);">1</a></li>
+	<li name="markerpage" class="waves-effect" id="marker_page_2"><a href="javascript:ghMarkerPage(2);">2</a></li>
+	<li name="markerpage" class="waves-effect" id="marker_page_3"><a href="javascript:ghMarkerPage(3);">3</a></li>
+	<li name="markerpage" class="waves-effect" id="marker_page_4"><a href="javascript:ghMarkerPage(4);">4</a></li>
+	<li name="markerpage" class="waves-effect" id="marker_page_5"><a href="javascript:ghMarkerPage(5);">5</a></li>
+	<li name="markerpage" class="waves-effect" id="marker_page_6"><a href="javascript:ghMarkerPage(6);">6</a></li>
+	<li name="markerpage" class="waves-effect" id="marker_page_7"><a href="javascript:ghMarkerPage(7);">7</a></li>
+	<li name="markerpage" class="waves-effect" id="marker_page_8"><a href="javascript:ghMarkerPage(8);">8</a></li>
+	<li name="markerpage" class="waves-effect" id="marker_page_9"><a href="javascript:ghMarkerPage(9);">9</a></li>
+	<li name="markerpage" class="waves-effect" id="marker_page_10"><a href="javascript:ghMarkerPage(10);">10</a></li>
+	<li name="markerpage" class="waves-effect" id="marker_page_11"><a href="javascript:ghMarkerPage(11);">11</a></li>
+	<li name="markerpage" class="waves-effect" id="marker_page_12"><a href="javascript:ghMarkerPage(12);">12</a></li>
+	<li name="markerpage" class="waves-effect" id="marker_page_next"><a href="javascript:ghMarkerPage(101);"><i class="material-icons">chevron_right</i></a></li>
+      </ul>
+      
+      <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect btn blue-grey">___NO_NO___</a>
+        <a href="javascript:ghTrainMarkerModalOK();" class="modal-close waves-effect waves-green btn">___OK_OK___</a>
+      </div>
+    </div>
+  </div>
+  <!-- train marker Modal Structure -->
+
+  <!-- train model Modal Structure -->
+  <div id="gh_trainmodelmodal" class="modal" style="height:600px;width:720px;">
+    <div class="modal-content">
+      <h4 data-t="timetable.set3dmodel"></h4>
+      <input id="gh_model_trainid" type="hidden" value="">
+      <input id="gh_model_trainidtab" type="hidden" value="">
+      <div id="gh_model_content" class="row">
+        <label class="col s6">
+          <input class="with-gap" name="train3dmodel" value="default" type="radio" checked/>
+          <span data-t="timetable.default"></span>
+        </label>
+        <label class="col s6">
+          <input class="with-gap" name="train3dmodel" value="locomotive/EURO.json" type="radio"/>
+          <span><img src="../images/eurostar_s.png">Eurostar</span>
+        </label>
+        <label class="col s6">
+          <input class="with-gap" name="train3dmodel" value="locomotive/THALYS.json" type="radio"/>
+          <span><img src="../images/thalys_s.png">Thalys</span>
+        </label>
+        <label class="col s6">
+          <input class="with-gap" name="train3dmodel" value="locomotive/ICE.json" type="radio"/>
+          <span><img src="../images/ice3_s.png">ICE</span>
+        </label>
+        <label class="col s6">
+          <input class="with-gap" name="train3dmodel" value="locomotive/DB101.json" type="radio"/>
+          <span><img src="../images/DB101_s.png">DB 101</span>
+        </label>
+        <label class="col s6">
+          <input class="with-gap" name="train3dmodel" value="locomotive/TGV.json" type="radio"/>
+          <span><img src="../images/tgv_s.png">TGV</span>
+        </label>
+        <label class="col s6">
+          <input class="with-gap" name="train3dmodel" value="locomotive/X2000.json" type="radio"/>
+          <span><img src="../images/x2000_s.png">X2000</span>
+        </label>
+        <label class="col s6">
+          <input class="with-gap" name="train3dmodel" value="locomotive/X60.json" type="radio"/>
+          <span><img src="../images/x60_s.png">SL X60</span>
+        </label>
+        <label class="col s6">
+          <input class="with-gap" name="train3dmodel" value="locomotive/IC3.json" type="radio"/>
+          <span><img src="../images/ic3_s.png">IC3</span>
+        </label>
+        <label class="col s6">
+          <input class="with-gap" name="train3dmodel" value="locomotive/IC3.json" type="radio"/>
+          <span><img src="../images/ic3_s.png">IC3</span>
+        </label>
+        <label class="col s6">
+          <input class="with-gap" name="train3dmodel" value="locomotive/AVE102.json" type="radio"/>
+          <span><img src="../images/ave102_s.png">AVE</span>
+        </label>
+        <label class="col s6">
+          <input class="with-gap" name="train3dmodel" value="locomotive/CL392.json" type="radio"/>
+          <span><img src="../images/cl392_s.png">Class 392</span>
+        </label>
+        <label class="col s6">
+          <input class="with-gap" name="train3dmodel" value="locomotive/CL370.json" type="radio"/>
+          <span><img src="../images/cl370_s.png">Class 370</span>
+        </label>
+        <label class="col s6">
+          <input class="with-gap" name="train3dmodel" value="locomotive/CL373.json" type="radio"/>
+          <span><img src="../images/cl373_s.png">Class 373</span>
+        </label>
+        <label class="col s6">
+          <input class="with-gap" name="train3dmodel" value="locomotive/ER200.json" type="radio"/>
+          <span><img src="../images/er200_s.png">ER 200</span>
+        </label>
+        <label class="col s6">
+          <input class="with-gap" name="train3dmodel" value="locomotive/EL350.json" type="radio"/>
+          <span><img src="../images/el350_s.png">EL 350</span>
+        </label>
+        <label class="col s6">
+          <input class="with-gap" name="train3dmodel" value="locomotive/VIRM.json" type="radio"/>
+          <span><img src="../images/VIRM_s.png">NS VIRM</span>
+        </label>
+        <label class="col s6">
+          <input class="with-gap" name="train3dmodel" value="locomotive/DB103.json" type="radio"/>
+          <span><img src="../images/db103_s.png">DB 103</span>
+        </label>
+        <label class="col s6">
+          <input class="with-gap" name="train3dmodel" value="locomotive/CL714.json" type="radio"/>
+          <span><img src="../images/class714_s.png">Class 714</span>
+        </label>
+        <label class="col s6">
+          <input class="with-gap" name="train3dmodel" value="locomotive/VELARO.json" type="radio"/>
+          <span><img src="../images/sapsan_s.png">VELARO</span>
+        </label>
+        <label class="col s6">
+          <input class="with-gap" name="train3dmodel" value="locomotive/ROVOS.json" type="radio"/>
+          <span><img src="../images/rovos_s.png">BlueTrain</span>
+        </label>
+        <label class="col s6">
+          <input class="with-gap" name="train3dmodel" value="locomotive/AMTRAK.json" type="radio"/>
+          <span><img src="../images/amtrak_s.png">Amtrak</span>
+        </label>
+        <label class="col s6">
+          <input class="with-gap" name="train3dmodel" value="locomotive/JR700.json" type="radio"/>
+          <span><img src="../images/jr700_s.png">JR700</span>
+        </label>
+        <label class="col s6">
+          <input class="with-gap" name="train3dmodel" value="locomotive/JRE6.json" type="radio"/>
+          <span><img src="../images/jre6_s.png">JR E6</span>
+        </label>
+        <label class="col s6">
+          <input class="with-gap" name="train3dmodel" value="locomotive/JR181.json" type="radio"/>
+          <span><img src="../images/jr181_s.png">JR181</span>
+        </label>
+        <label class="col s6">
+          <input class="with-gap" name="train3dmodel" value="locomotive/JRE353.json" type="radio"/>
+          <span><img src="../images/jre353_s.png">JRE353</span>
+        </label>
+        <label class="col s6">
+          <input class="with-gap" name="train3dmodel" value="locomotive/CRH3.json" type="radio"/>
+          <span><img src="../images/crh3_s.png">CRH3</span>
+        </label>
+        <label class="col s6">
+          <input class="with-gap" name="train3dmodel" value="locomotive/THSR700.json" type="radio"/>
+          <span><img src="../images/thsr700_s.png">THSR 700</span>
+        </label>
+        <label class="col s6">
+          <input class="with-gap" name="train3dmodel" value="locomotive/CD864.json" type="radio"/>
+          <span><img src="../images/CD864_s.png">CD864</span>
+        </label>
+        <label class="col s6">
+          <input class="with-gap" name="train3dmodel" value="locomotive/C62.json" type="radio"/>
+          <span><img src="../images/C62_s.png">C62 steam</span>
+        </label>
+        <label class="col s6">
+          <input class="with-gap" name="train3dmodel" value="locomotive/GORNERGRAT.json" type="radio"/>
+          <span><img src="../images/gornergratrack_s.png">Gornergrat Rackrail</span>
+        </label>
+        <label class="col s6">
+          <input class="with-gap" name="train3dmodel" value="locomotive/TEE.json" type="radio"/>
+          <span><img src="../images/tee_s.png">Trans Europe Express</span>
+        </label>
+        <label class="col s6">
+          <input class="with-gap" name="train3dmodel" value="locomotive/STEAM.json" type="radio"/>
+          <span><img src="../images/sl_s.png">Steam Train</span>
+        </label>
+      </div>
+
+      <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect btn blue-grey" data-t="modal.no"></a>
+        <a href="javascript:ghTrainModelModalOK();" class="modal-close waves-effect waves-green btn" data-t="modal.ok"></a>
+      </div>
+    </div>
+  </div>
+  <!-- train model Modal Structure -->
+
+  <!-- About Modal Structure -->
+  <div id="gh_aboutmodal" class="modal" style="background:#424242;color:#b0bec5;">
+    <div class="modal-content">
+      <img src="../images/Geoglyph-logo-s-l.png">
+      <h4>Geoglyph Rail Timetable</h4>
+      <div id="gh_aboutcontent"></div>
+      <iframe width="420" height="236" src="https://www.youtube.com/embed/EmDAHDmvjA8" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+    <div class="modal-footer" style="background:#424242;color:#b0bec5;">
+      <i class="material-icons">copyright</i> 2021 Hirakata Farm.&nbsp;&nbsp;&nbsp;&nbsp;<a href="#!" class="modal-close yellow btn-flat" data-t="modal.ok"></a>
+    </div>
+  </div>        
+  <!-- About Modal Structure -->        
+  <script type="text/javascript" src="ghLang.js"></script>
+  <script type="text/javascript" src="../js/turfRail.min.js"></script>
+  <script type="text/javascript" src="../js/ghRailBroadcast.js"></script>
+  <script type="text/javascript" src="../js/ghRailTime.js"></script>
+</body>
+</html>
+ 

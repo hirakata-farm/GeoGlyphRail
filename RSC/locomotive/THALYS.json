@@ -1,0 +1,6 @@
+{
+ "size" : [ 25.05,20.22,20.22, 20.22, 24.95],
+ "interval" : [ 24.34, 17.74, 20.45, 23.10 ],
+ "model" : [ "locomotive/thalys-car1.glb","locomotive/thalys-car2.glb","locomotive/thalys-car3.glb","locomotive/thalys-car4.glb", "locomotive/thalys-car5.glb" ]
+}
+

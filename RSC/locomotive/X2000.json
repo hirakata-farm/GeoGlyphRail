@@ -1,0 +1,5 @@
+{
+ "size" : [ 17.05, 24.57, 24.95, 24.95, 24.95, 22.14 ],
+ "interval" : [ 19.85, 24.25, 25.19, 25.34, 23.56 ],
+ "model" : [ "locomotive/X2000-car1.glb","locomotive/X2000-car2.glb","locomotive/X2000-car3.glb","locomotive/X2000-car4.glb","locomotive/X2000-car5.glb","locomotive/X2000-car6.glb" ]
+}

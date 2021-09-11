@@ -1,0 +1,5 @@
+{
+ "size" : [ 27.0, 25.0, 25.0, 25.0, 25.0, 25.0, 25.0, 25.0, 25.0, 25.0, 25.0, 27.0 ],
+ "interval" : [ 26.0, 25.0, 25.0, 25.5, 24.7, 25.0, 25.0, 25.5, 24.7, 25.0, 26.5 ],
+ "model" : [ "locomotive/THSR700-car1.glb","locomotive/THSR700-car2.glb","locomotive/THSR700-car2.glb","locomotive/THSR700-car4.glb","locomotive/THSR700-car5.glb","locomotive/THSR700-car2.glb","locomotive/THSR700-car2.glb","locomotive/THSR700-car4.glb","locomotive/THSR700-car5.glb", "locomotive/THSR700-car2.glb", "locomotive/THSR700-car2.glb", "locomotive/THSR700-car12.glb" ]
+}

@@ -1,0 +1,5 @@
+{
+ "size" : [ 20.08, 20.97, 20.84, 20.54 ],
+ "interval" : [ 20.49, 21.47, 20.94 ],
+ "model" : [ "locomotive/TEE-car1.glb","locomotive/TEE-car2.glb", "locomotive/TEE-car3.glb", "locomotive/TEE-car4.glb" ]
+}

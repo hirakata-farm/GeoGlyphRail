@@ -1,0 +1,5 @@
+{
+ "size" : [ 19.85, 29.02, 29.02 ],
+ "interval" : [ 25.25, 23.84 ],
+ "model" : [ "locomotive/Amtrak17-car1.glb","locomotive/Amtrak17-car2.glb","locomotive/Amtrak17-car3.glb" ]
+}

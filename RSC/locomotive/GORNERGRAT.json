@@ -1,0 +1,5 @@
+{
+ "size" : [ 11.09, 11.01 ],
+ "interval" : [ 11.02 ],
+ "model" : [ "locomotive/GornergratRackrail-car1.glb","locomotive/GornergratRackrail-car2.glb" ]
+}

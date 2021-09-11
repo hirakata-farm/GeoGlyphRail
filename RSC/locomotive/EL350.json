@@ -1,0 +1,5 @@
+{
+ "size" : [ 16.04, 23.96, 26.35, 23.93, 23.93, 23.93, 23.93 ],
+ "interval" : [ 19.99, 25.21, 24.93, 23.93, 23.93, 23.93 ],
+ "model" : [ "locomotive/EL350-car1.glb","locomotive/EL350-car2.glb","locomotive/EL350-car3.glb","locomotive/EL350-car4.glb","locomotive/EL350-car4.glb","locomotive/EL350-car4.glb","locomotive/EL350-car4.glb" ]
+}

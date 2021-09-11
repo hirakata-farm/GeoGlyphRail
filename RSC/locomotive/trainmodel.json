@@ -1,0 +1,182 @@
+{
+"EURO" : {
+ "flen" : [ 21.94, 19.08, 19.14, 19.08, 19.14, 21.82 ],
+ "fdis" : [ 20.99, 18.75, 19.02, 19.23, 20.31 ],
+ "gltf" : [ "EurostarLivery-car1.glb","EurostarLivery-car2.glb","EurostarLivery-car3.glb","EurostarLivery-car4.glb","EurostarLivery-car5.glb","EurostarLivery-car6.glb" ]
+},
+"CL373" : {
+ "flen" : [ 21.86, 19.29, 21.87 ],
+ "fdis" : [ 20.46, 22.26 ],
+ "gltf" : [ "EUROSTAR-class373-car1a.glb","EUROSTAR-class373-car2a.glb","EUROSTAR-class373-car3a.glb" ]
+},
+"AMTRAK" : {
+ "flen" : [ 19.85, 29.02, 29.02 ],
+ "fdis" : [ 25.25, 23.84 ],
+ "gltf" : [ "Amtrak17-car1.glb","Amtrak17-car2.glb","Amtrak17-car3.glb" ]
+},
+"ICE" : {
+ "flen" : [ 25.16, 23.86, 23.85, 25.1 ],
+ "fdis" : [ 21.61, 24.93, 23.68 ],
+ "gltf" : [ "ICE_3-car1.glb","ICE_3-car2.glb","ICE_3-car3.glb","ICE_3-car4.glb" ]
+},
+"DB101" : {
+ "flen" : [ 15.07, 27.71, 27.71, 27.71, 27.71, 27.71 ],
+ "fdis" : [ 21.37, 27.79, 27.86, 27.81, 27.81 ],
+ "gltf" : [ "DB101-car1.glb","DB101-car2.glb","DB101-car3.glb","DB101-car4.glb", "DB101-car4.glb","DB101-car4.glb" ]
+},
+"IC3" : {
+ "flen" : [ 20.48, 17.48, 20.92 ],
+ "fdis" : [ 18.44, 19.06 ],
+ "gltf" : [ "IC3-car1.glb","IC3-car2.glb","IC3-car3.glb" ]
+},
+"TGV" : {
+ "flen" : [ 22.35, 21.8, 21.8, 22.65 ],
+ "fdis" : [ 20.16, 21.93, 22.65 ],
+ "gltf" : [ "TGV-car1.glb","TGV-car2.glb","TGV-car3.glb","TGV-car4.glb" ]
+},
+"THALYS" : {
+ "flen" : [ 25.05,20.22,20.22, 20.22, 24.95],
+ "fdis" : [ 24.34, 17.74, 20.45, 23.10 ],
+ "gltf" : [ "thalys-car1.glb","thalys-car2.glb","thalys-car3.glb","thalys-car4.glb", "thalys-car5.glb" ]
+},
+"X2000" : {
+ "flen" : [ 17.05, 24.57, 24.95, 24.95, 24.95, 22.14 ],
+ "fdis" : [ 19.85, 24.25, 25.19, 25.34, 23.56 ],
+ "gltf" : [ "X2000-car1.glb","X2000-car2.glb","X2000-car3.glb","X2000-car4.glb","X2000-car5.glb","X2000-car6.glb" ]
+},
+"AVE102" : {
+ "flen" : [ 19.08, 21.75, 18.69, 18.73, 18.77, 18.77, 18.77, 21.81, 19.07 ],
+ "fdis" : [ 20.66, 19.00, 18.72, 18.99, 20.52, 18.75, 19.10, 20.66 ],
+ "gltf" : [ "AVE102-car1.glb","AVE102-car2.glb","AVE102-car3.glb","AVE102-car4.glb","AVE102-car5.glb","AVE102-car6.glb","AVE102-car7.glb","AVE102-car8.glb","AVE102-car9.glb" ]
+},
+"JR700" : {
+ "flen" : [ 27.93, 25.07, 25.02, 25.12, 24.95, 25.03, 25.12, 25.12, 25.12, 25.03, 25.12, 24.95, 25.03, 250.2, 25.07, 27.02 ],
+ "fdis" : [ 26.05, 25.08, 25.05, 24.63, 25.40, 25.07, 25.12, 25.12, 25.08,25.07, 24.63, 25.40, 25.04, 25.01, 25.62 ],
+ "gltf" : [ "JR700-simple-car1.glb","JR700-simple-car2.glb","JR700-simple-car3.glb","JR700-simple-car4.glb","JR700-simple-car5.glb","JR700-simple-car6.glb","JR700-simple-car4.glb","JR700-simple-car4.glb","JR700-simple-car4.glb","JR700-simple-car6.glb","JR700-simple-car4.glb","JR700-simple-car5.glb","JR700-simple-car6.glb","JR700-simple-car3.glb","JR700-simple-car2.glb","JR700-simple-car16.glb" ]
+},
+"JRE6" : {
+ "flen" : [ 22.9, 20.29, 20.5, 20.47, 20.47, 20.3, 22.93 ],
+ "fdis" : [ 21.36, 20.03, 21.17, 20.23, 20.84, 20.93 ],
+ "gltf" : [ "JR-E6-simple-car1.glb","JR-E6-simple-car2.glb","JR-E6-simple-car3.glb","JR-E6-simple-car4.glb","JR-E6-simple-car5.glb","JR-E6-simple-car6.glb","JR-E6-simple-car7.glb" ]
+},
+"JR181" : {
+ "flen" : [ 20.82, 20.8, 20.8, 20.8, 20.8, 20.8 ],
+ "fdis" : [ 21.0, 20.79, 20.8, 20.8, 20.7 ],
+ "gltf" : [ "jr181-car1.glb","jr181-car2.glb","jr181-car3.glb","jr181-car4.glb","jr181-car5.glb","jr181-car6.glb" ]
+},
+"ROVOS" : {
+ "flen" : [ 19.27, 19.27, 23.68, 23.68, 23.68, 23.68, 23.68  ],
+ "fdis" : [ 19.16, 21.54, 23.61, 23.61, 23.61, 23.61 ],
+ "gltf" : [ "ROVOS-car1.glb","ROVOS-car1.glb","ROVOS-car3.glb","ROVOS-car3.glb","ROVOS-car3.glb","ROVOS-car3.glb","ROVOS-car3.glb" ]
+},
+"STEAM" : {
+ "flen" : [ 5.29, 6.71 ],
+ "fdis" : [ 5.66 ],
+ "gltf" : [ "SL-car1.glb","SL-car2.glb" ]
+},
+"CL392" : {
+ "flen" : [ 26.51, 26.68 ],
+ "fdis" : [ 26.26 ],
+ "gltf" : [ "Class-392-Heathrow-Express-car1.glb","Class-392-Heathrow-Express-car2.glb" ]
+},
+"CL370" : {
+ "flen" : [ 22.78, 20.9, 21.5, 21.6, 21.0, 22.63 ],
+ "fdis" : [ 19.4, 21.8, 21.6, 20.8, 20.8 ],
+ "gltf" : [ "Class-370-car1.glb","Class-370-car2.glb","Class-370-car3.glb","Class-370-car4.glb","Class-370-car5.glb","Class-370-car6.glb" ]
+},
+"X60" : {
+ "flen" : [ 19.76, 15.8, 15.8, 15.8, 15.8, 19.74 ],
+ "fdis" : [ 16.53, 14.64, 17.14, 15.20, 17.76 ],
+ "gltf" : [ "X60-car1.glb","X60-car2.glb","X60-car3.glb","X60-car5.glb","X60-car6.glb" ]
+},
+"CRH3" : {
+ "flen" : [ 25.15, 23.86, 23.86, 23.86, 23.86, 23.86, 23.86, 25.1 ],
+ "fdis" : [ 23.83, 25.16, 23.06, 23.54, 23.76, 24.02, 24.08 ],
+ "gltf" : [ "CRH3-car1.glb","CRH3-car2.glb","CRH3-car3.glb","CRH3-car5.glb","CRH3-car6.glb","CRH3-car7.glb","CRH3-car8.glb" ]
+},
+"CD864" : {
+ "flen" : [ 15.37, 25.4 ],
+ "fdis" : [ 20.66 ],
+ "gltf" : [ "CD864DMU-car1.glb","CD864DMU-car2.glb" ]
+},
+"TEE" : {
+ "flen" : [ 20.08, 20.97, 20.84, 20.54 ],
+ "fdis" : [ 20.49, 21.47, 20.94 ],
+ "gltf" : [ "TEE-car1.glb","TEE-car2.glb", "TEE-car3.glb", "TEE-car4.glb" ]
+},
+"TREN" : {
+ "flen" : [ 11.0, 11.25, 11.0 ],
+ "fdis" : [ 12.0, 11.1 ],
+ "gltf" : [ "RegioCitadis-car1.glb","RegioCitadis-car2.glb","RegioCitadis-car3.glb" ]
+},    
+"ARRIVAGTW" : {
+ "flen" : [ 23.53, 25.9, 23.77 ],
+ "fdis" : [ 25.26, 24.33 ],
+ "gltf" : [ "Arriva-gtw-car1.glb","Arriva-gtw-car2.glb", "Arriva-gtw-car3.glb" ]
+},
+"GORNERGRAT" : {
+ "flen" : [ 11.09, 11.01 ],
+ "fdis" : [ 11.02 ],
+ "gltf" : [ "GornergratRackrail-car1.glb","GornergratRackrail-car2.glb" ]
+},
+"ER200" : {
+ "flen" : [ 25.79, 24.9, 24.9, 25.7 ],
+ "fdis" : [ 25.4, 25.0, 25.5 ],
+ "gltf" : [ "ER-200-car1.glb","ER-200-car2.glb","ER-200-car3.glb","ER-200-car4.glb" ]
+},
+"EL350" : {
+ "flen" : [ 16.04, 23.96, 26.35, 23.93, 23.93, 23.93, 23.93 ],
+ "fdis" : [ 19.99, 25.21, 24.93, 23.93, 23.93, 23.93 ],
+ "gltf" : [ "EL350-car1.glb","EL350-car2.glb","EL350-car3.glb","EL350-car4.glb","EL350-car4.glb","EL350-car4.glb","EL350-car4.glb" ]
+},
+"JRE353" : {
+ "flen" : [ 19.88, 19.50, 19.50, 19.51 ],
+ "fdis" : [ 19.68, 19.56, 19.70 ],
+ "gltf" : [ "JRE353-simple-car1.glb","JRE353-simple-car2.glb","JRE353-simple-car3.glb","JRE353-simple-car4.glb" ]
+}, 
+"C62" : {
+ "flen" : [ 13.23, 8.10, 19.92, 19.92, 19.92,19.92 ],
+ "fdis" : [ 10.86, 14.16, 19.96, 19.96,19.96 ],
+ "gltf" : [ "C62-simple-car1.glb","C62-simple-car2.glb","C62-simple-car3.glb","C62-simple-car3.glb","C62-simple-car3.glb","C62-simple-car4.glb" ]
+},    
+"VIRM" : {
+ "flen" : [ 24.6, 24.5, 24.5, 24.5, 24.5, 24.6 ],
+ "fdis" : [ 24.7, 24.5, 24.5, 24.5, 24.6 ],
+ "gltf" : [ "VIRM-car0.glb","VIRM-car1.glb","VIRM-car1.glb","VIRM-car1.glb","VIRM-car1.glb","VIRM-car2.glb" ]
+},
+"THSR700" : {
+ "flen" : [ 27.0, 25.0, 25.0, 25.0, 25.0, 25.0, 25.0, 25.0, 25.0, 25.0, 25.0, 27.0 ],
+ "fdis" : [ 26.0, 25.0, 25.0, 25.5, 24.7, 25.0, 25.0, 25.5, 24.7, 25.0, 26.5 ],
+ "gltf" : [ "THSR700-car1.glb","THSR700-car2.glb","THSR700-car2.glb","THSR700-car4.glb","THSR700-car5.glb","THSR700-car2.glb","THSR700-car2.glb","THSR700-car4.glb","THSR700-car5.glb", "THSR700-car2.glb", "THSR700-car2.glb", "THSR700-car12.glb" ]
+},
+"VELARO" : {
+ "flen" : [ 25.1, 24.25, 24.2, 24.2, 24.2, 25.3 ],
+ "fdis" : [ 24.70, 24.28, 24.18, 24.22, 24.92 ],
+ "gltf" : [ "VELARO-simple-car1.glb","VELARO-simple-car2.glb","VELARO-simple-car3.glb","VELARO-simple-car4.glb","VELARO-simple-car5.glb","VELARO-simple-car6.glb" ]
+},
+"TACHIKOMA" : {
+ "flen" : [ 8.0, 8.0, 8.0, 8.0, 8.0 ],
+ "fdis" : [ 7.92, 7.92, 7.92, 7.92 ],
+ "gltf" : [ "tachikoma.glb", "tachikoma.glb", "tachikoma.glb", "tachikoma.glb", "tachikoma.glb" ]
+},
+"GUSTAV" : {
+ "flen" : [ 55.2 ],
+ "fdis" : [ 55.2 ],
+ "gltf" : [ "gustav-simple.glb" ]
+},
+"CL714" : {
+ "flen" : [ 14.2, 18.49, 18.34 ],
+ "fdis" : [ 16.31, 18.31 ],
+ "gltf" : [ "Class-714-simple-car1.glb","Class-714-car2-g.glb","Class-714-car3-g.glb"]
+},
+"DB103" : {
+ "flen" : [ 16.75,28.75,28.75,28.77,28.67,28.86,28.69 ],
+ "fdis" : [ 22.81,28.73,28.82,28.67,28.75,28.88 ],
+ "gltf" : [ "DB-Class-103-car1-g.glb","DB-Class-103-car2-g.glb","DB-Class-103-car3-g.glb","DB-Class-103-car4-g.glb","DB-Class-103-car5-g.glb","DB-Class-103-car6-g.glb","DB-Class-103-car7-g.glb"]
+},
+"USER" : {
+ "flen" : [ 20.0 ],
+ "fdis" : [ 20.0 ],
+ "gltf" : [ "http://earth.geoglyph.info/models/Ferrari458Italia.glb" ]
+}
+}

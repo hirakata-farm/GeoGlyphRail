@@ -1,0 +1,5 @@
+{
+ "size" : [ 21.86, 19.29, 21.87 ],
+ "interval" : [ 20.46, 22.26 ],
+ "model" : [ "locomotive/EUROSTAR-class373-car1a.glb","locomotive/EUROSTAR-class373-car2a.glb","locomotive/EUROSTAR-class373-car3a.glb" ]
+}

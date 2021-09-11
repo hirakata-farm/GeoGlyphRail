@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html data-attr-t lang-t="attribute.lang">
+    <head>
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-64986417-1"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag('js', new Date());
+
+            gtag('config', 'UA-64986417-1');
+        </script>
+
+        <title>Geoglyph Rail 3D</title>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta name="description" data-attr-t content-t="attribute.desc" lang-t="attribute.lang">
+        <meta name="keywords" data-attr-t content-t="attribute.keywords" lang-t="attribute.lang"/>
+
+        <!-- Jquery -->
+        <link rel="stylesheet" href="../../miniwindow/jquery-ui.min.css">
+        <script src="https://code.jquery.com/jquery-3.5.0.min.js" integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ=" crossorigin="anonymous"></script>
+        <script src="../../miniwindow/jquery-ui.min.js"></script>
+
+        <!-- Materialize -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+	<!--   https://material.io/resources/icons/?style=baseline -->
+
+        <!-- Cesium -->
+        <link rel="stylesheet" type="text/css" href="../../cesium/Widgets/widgets.css">
+        <script src="../../cesium/Cesium.js"></script>
+
+        <!-- Leaflet -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+        <script src="../../leaflet/leaflet.geometryutil.js"></script>
+        <link rel="stylesheet" type="text/css" href="../../leaflet/leaflet-distance-marker.css">
+        <script src="../../leaflet/leaflet-distance-marker.js"></script>
+        <script src="../../leaflet/Polyline.encoded.js" charset="utf-8"></script>
+
+        <!-- Speedometer -->
+        <link href="../css/ghspeedometer.css" rel="stylesheet" type="text/css" />
+        <script src="../js/ghSpeedoMeter.js"></script>    
+
+	<!-- Marquee -->
+        <link href="../css/jquery.jConveyorTicker.min.css" rel="stylesheet" type="text/css" />
+        <script src="../js/jquery.jConveyorTicker.min.js"></script>
+	<!--  https://lluz.github.io/jquery.jConveyorTicker -->
+	<!--  https://github.com/lluz/jquery-conveyor-ticker -->
+
+        <!-- D3 chart  -->
+        <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+
+        <link rel="stylesheet" type="text/css" href="../css/ghrail3m.css">
+    </head>
+    <body>
+        <nav>
+            <div class="nav-wrapper">
+                <ul class="left">
+                  <li><img src="../images/Geoglyph-logo-s-l.png" style="height:38px;"></li>
+		  <li><a class="dropdown-trigger-s" href="#!" data-target="gh_startdropdown"><i class="material-icons left">storage</i></a></li>
+		  <li><a class="waves-effect waves-light modal-trigger" href="#gh_timemodal"><i class="small material-icons left">timer</i></a></li>
+		  <li>
+                    <div class="preloader-wrapper small" id="gh_loader" style="width:32px;height:32px;">
+                      <div class="spinner-layer spinner-green-only">
+                        <div class="circle-clipper left">
+                          <div class="circle"></div>
+                        </div><div class="gap-patch">
+                          <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                          <div class="circle"></div>
+                        </div>
+                      </div>
+                  </div></li>
+		  <li>&nbsp;&nbsp;&nbsp;
+                  <li style="width:180px;"><a class="dropdown-trigger-v" href="#!" data-target="gh_viewpointdropdown"><img id="gh_viewpointicon" src="../images/blank.png" data-t="viewpoint.title"><i class="material-icons right">arrow_drop_down</i></a>
+                  <!-- <li>&nbsp;&nbsp;&nbsp; -->
+		  <li>
+		    <div class="marquee" style="width:300px;">
+		      <ul>
+			<li>
+			  <span> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+			</li>
+			<li>
+			  <span id="gh_marquee_data" > Please select train data.</span>
+			</li>
+		      </ul>
+		    </div>
+		    </li>
+                </ul>
+
+                <ul class="right">
+                    <li><a href="https://www.youtube.com/channel/UCPJB_FOkmHItkeFE3sO_blw" class="right"><i class="material-icons">videocam</i></a></li>
+                    <li><a href="index.html" class="right"><i class="material-icons">home</i></a></li>
+                    <li><a class="waves-effect waves-light modal-trigger" href="#gh_aboutmodal"><i class="material-icons">help_outline</i></a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- Main Map -->
+        <div id="mainContainer">
+            <div id="gh_cesiumContainer"></div>
+            <div id="gh_speedometer_position" style="position:relative;top:-160px;right:6px;float:right;"/><div id="gh_speedometer"/></div></div>
+        </div>
+        <!-- Main Map -->
+
+        <!-- Left Side Nav -->
+        <div id="slide-out" class="sidenav" style="width:340px">
+            <div class="row">
+                <div class="col s12">
+                    <ul class="tabs tabs-fixed-width">
+                        <li class="tab col s3"><a class="active" href="#side_tab1"><i class="small material-icons left" id="tabbuildbtn">build</i></a></li>
+                        <li class="tab col s3"><a href="#side_tab2"><i class="small material-icons left" id="tab2dmapbtn">edit_attributes</i></a></li>
+                        <li class="tab col s3"><a href="#side_tab3"><i class="small material-icons left" id="tabtrainbtn">directions_railway</i></a></li>
+			<li class="tab col s3"><a href="#side_tab4"><i class="small material-icons left" id="tabstationbtn">camera_alt</i></a></li>
+                    </ul>
+                </div>
+                <div id="side_tab1" class="col s12">
+                    <h5 data-t>paragram3d.setting</h5>
+                    <p data-t>paragram3d.quality</p>
+                    <p class="range-field">
+                        <input type="range" name="cesiumquality" id="gh_qualityslider" min="10" max="100" step="1" value="70"/>
+                    </p>                    
+                    <p data-t>paragram3d.tilecache</p>
+                    <p class="range-field">
+                        <input type="range" name="cesiumtilecachesize" id="gh_tilecachesizeslider" min="100" max="2000" step="100" value="100" />
+                    </p>
+                    <p>
+                        <label>
+                            <input type="checkbox" class="filled-in" id="gh_frameratecheckbox"/>
+                            <span data-t>paragram3d.framerate</span>
+                        </label><BR>
+                        <label>
+                            <input type="checkbox" class="filled-in" id="gh_speedmetercheckbox"/>
+                            <span data-t>paragram3d.speedometer</span>
+                        </label><BR>
+                        <label>
+                            <input type="checkbox" class="filled-in" id="gh_lightingcheckbox"/>
+                            <span data-t>paragram3d.enablesun</span>
+                        </label><BR>
+                        <label>
+                            <input type="checkbox" class="filled-in" id="gh_watercheckbox" />
+                            <span data-t>paragram3d.enablewater</span>
+                        </label><BR>
+                        <label>
+                            <input type="checkbox" class="filled-in" id="gh_fogcheckbox"/>
+                            <span data-t>paragram3d.enablefog</span>
+                        </label><BR>
+                        <label>
+                            <input type="checkbox" class="filled-in" id="gh_3dterraincheckbox" checked/>
+                            <span data-t>paragram3d.enableterrain</span>
+                        </label><BR>
+                        <label>
+                            <input type="checkbox" class="filled-in" id="gh_tunnelcheckbox" checked/>
+                            <span data-t>paragram3d.enabletunnel</span>
+                        </label><BR>
+                        <label>
+                            <input type="checkbox" class="filled-in" id="gh_speedvaluereciprocal"/>
+                            <span data-t>paragram3d.reciprocal</span>
+                        </label><BR><BR>
+                        <label>
+                            <input type="checkbox" class="filled-in" id="gh_3dtilecheckbox" />
+                            <span data-t>paragram3d.enable3dtile</span>
+                        </label><BR>
+                        <label>
+                            <input name="3dtile_type" value="osmbuildings" type="radio" checked />
+                            <span data-t>paragram3d.3dtileosmbuilding</span>
+                        </label><BR>
+                        <label>
+                            <input name="3dtile_type" value="polygon" type="radio"/>
+                            <span data-t>paragram3d.3dtilepolygon</span>
+                        </label><BR>
+                        <label>
+                            <input name="3dtile_type" value="withtexture" type="radio"/>
+                            <span data-t>paragram3d.3dtiletexture</span>
+                        </label>
+                    </p>
+		    <hr style="width:160px">
+                    <p data-t>paragram3d.weather</p><BR>
+                        <label>
+                            <input class="with-gap" name="gh_weather" value="sunny" type="radio" checked/>
+                            <span data-t>paragram3d.sunny</span>
+                        </label><BR>
+                        <label>
+                            <input class="with-gap" name="gh_weather" value="rain" type="radio"/>
+                            <span data-t>paragram3d.rainy</span>
+                        </label><BR>
+		        <p class="range-field">
+                          <input type="range" name="raindensity" id="gh_rainslider" min="5" max="25"  step="1" value="5"/>
+                        </p>
+                        <label>
+                            <input type="checkbox" class="filled-in" id="gh_rainsoundcheckbox"/>
+                            <span data-t>paragram3d.rainsound</span>
+			    <audio id="audiorain" controls loop><source src="../RSC/audio/sound_of_rain_30min.mp3" type="audio/mp3">BGM not available</audio>
+                        </label>
+		</div>
+                <div id="side_tab2" class="col s12">
+                    <h5 data-t>paragram2d.setting</h5>
+		    <p data-t>paragram2d.trainicon</p><BR>
+                    <label>
+                      <input class="with-gap" name="trainiconsize" value="large" type="radio"/>
+                      <span><img src="../images/2dtrain.gif" style="width:48px;height:48px;" data-t="paragram2d.largeicon"></span>
+                    </label><BR>
+                    <label>
+                      <input class="with-gap" name="trainiconsize" value="medium" type="radio" checked/>
+                      <span><img src="../images/2dtrain.gif" style="width:24px;height:24px;" data-t="paragram2d.mediumicon"></span>
+                    </label><BR>
+                    <label>
+                      <input class="with-gap" name="trainiconsize" value="small" type="radio"/>
+                      <span><img src="../images/2dtrain.gif" style="width:12px;height:12px;" data-t="paragram2d.smallicon"></span>
+                    </label><BR>
+		    
+		    <BR><BR><img src='../images/2drail.gif' style="float:left;" data-t="paragram2d.track"><BR>
+                    <label>
+                      <input class="with-gap" name="trackpolylinesize" value="large" type="radio"/>
+                      <span data-t>paragram2d.largetrack</span>
+                    </label><BR>
+                    <label>
+                      <input class="with-gap" name="trackpolylinesize" value="medium" type="radio" checked/>
+                      <span data-t>paragram2d.mediumtrack</span>
+                    </label><BR>
+                    <label>
+                      <input class="with-gap" name="trackpolylinesize" value="small" type="radio"/>
+                      <span data-t>paragram2d.smalltrack</span>
+                    </label><BR>
+                    <label>
+                      <input class="with-gap" name="trackpolylinesize" value="hide" type="radio"/>
+                      <span data-t>paragram2d.hidetrack</span>
+                    </label><BR>
+                    <label>
+                      <input type="checkbox" class="filled-in" id="gh_polyline_distance_marker_checkbox"/>
+                      <span data-t>paragram2d.distancemarker</span>
+                    </label><BR>
+
+		    <BR><BR><img src='../images/2dstationmarker.png' style="float:left;" data-t="paragram2d.stationicon"><BR>
+                    <label>
+                      <input class="with-gap" name="bahnhoficonsize" value="large" type="radio"/>
+                      <span data-t>paragram2d.largeicon</span>
+                    </label><BR>
+                    <label>
+                      <input class="with-gap" name="bahnhoficonsize" value="medium" type="radio" checked/>
+                      <span data-t>paragram2d.mediumicon</span>
+                    </label><BR>
+                    <label>
+                      <input class="with-gap" name="bahnhoficonsize" value="small" type="radio"/>
+                      <span data-t>paragram2d.smallicon</span>
+                    </label><BR>
+                    <label>
+                      <input class="with-gap" name="bahnhoficonsize" value="hide" type="radio"/>
+                      <span data-t>paragram2d.hideicon</span>
+                    </label><BR>
+		    
+		    <BR>
+		    <p data-t>paragram2d.3dcamera</p><BR>
+                    <label>
+                      <input class="with-gap" name="cameraiconsize" value="large" type="radio"/>
+                      <span data-t>paragram2d.largeicon</span>
+                    </label><BR>
+                    <label>
+                      <input class="with-gap" name="cameraiconsize" value="medium" type="radio"/>
+                      <span data-t>paragram2d.mediumicon</span>
+                    </label><BR>
+                    <label>
+                      <input class="with-gap" name="cameraiconsize" value="small" type="radio"/>
+                      <span data-t>paragram2d.smallicon</span>
+                    </label><BR>
+		    <label>
+                      <input class="with-gap" name="cameraiconsize" value="hide" type="radio" checked/>
+                      <span data-t>paragram2d.hideicon</span>
+                    </label><BR>
+
+                </div>
+                <div id="side_tab3" class="col s12">
+                    <h5 data-t>paragrammodel.setting</h5>
+                    <p>
+                        <label>
+                            <input type="checkbox" class="filled-in" id="gh_modellabelcheckbox"  checked />
+                            <span data-t>paragrammodel.showtrainlabel</span>
+                        </label>
+                    </p>
+		    <p data-t>paragrammodel.scale</p>
+                    <p class="range-field">
+                        <input type="range" name="cesiummodelscale" id="gh_modelscaleslider" min="1" max="10"  step="1" value="1"/>
+                    </p>
+		      <HR width="160px">
+                  <h5 data-t>paragrammodel.labelsetting</h5>
+                  <p>
+                    <label>
+                      <input type="checkbox" class="filled-in" id="gh_stationlabelcheckbox"  checked />
+                      <span data-t>paragrammodel.showstationlabel</span>
+                    </label>
+                  </p>
+		    <p data-t>paragrammodel.scale</p>
+                  <p class="range-field">
+                    <input type="range" name="stationlabelscale" id="gh_stationlabelscaleslider" min="16" max="64"  step="4" value="16"/>
+                  </p>
+                  <p data-t>paragrammodel.color</p>
+		  <p>
+		    <label>
+		      <input class="with-gap" name="stationlabelcolor" value="blue" type="radio"/>
+		      <span class="blue white-text" data-t>paragrammodel.blue</span>
+		    </label>
+		  </p>
+		  <p>
+		    <label>
+		      <input class="with-gap" name="stationlabelcolor" value="black" type="radio"/>
+		      <span  class="black white-text" data-t>paragrammodel.black</span>
+		    </label>
+		  </p>
+		  <p>
+		    <label>
+		      <input class="with-gap" name="stationlabelcolor" value="purple" type="radio"/>
+		      <span class="purple black-text" data-t>paragrammodel.purple</span>
+		    </label>
+		  </p>
+		  <p>
+		    <label>
+		      <input class="with-gap" name="stationlabelcolor" value="orange" type="radio"/>
+		      <span class="orange black-text" data-t>paragrammodel.orange</span>
+		    </label>
+		  </p>
+		  <p>
+		    <label>
+		      <input class="with-gap" name="stationlabelcolor" value="yellow" type="radio"/>
+		      <span class="yellow black-text" data-t>paragrammodel.yellow</span>
+		    </label>
+		  </p>
+		  <p>
+		    <label>
+		      <input class="with-gap" name="stationlabelcolor" value="pink" type="radio"/>
+		      <span class="pink black-text" data-t>paragrammodel.pink</span>
+		    </label>
+		  </p>
+		  <p>
+		    <label>
+		      <input class="with-gap" name="stationlabelcolor" value="green" type="radio"/>
+		      <span class="green white-text" data-t>paragrammodel.green</span>
+		    </label>
+		  </p>
+                </div>
+                <div id="side_tab4" class="col s12">
+                  <h5 data-t>paragramcamera.setting</h5>
+		  <p data-t>paragramcamera.heigtofviewpoint</p>
+		  <p class="range-field">
+                    <input type="range" name="eyeoffsetheight" id="gh_eyeoffsetheightslider" min="3" max="20"  step="1" value="3"/>
+                  </p>
+                  <BR><BR>
+		  <p data-t>paragramcamera.distance</p>
+		  <p class="range-field">
+                    <input type="range" name="trackingdistance" id="gh_trackingdistance" min="100" max="3000" step="50" value="1000"/>
+                  </p>
+                  <BR><BR>
+                  <p>
+                    <label>
+                        <input type="checkbox" class="filled-in" id="gh_enableautocameracheckbox"/>
+                      <span data-t>paragramcamera.autocamera</span>
+		      <p class="range-field">
+			<input type="range" name="autocameraminutes" id="gh_autocameraminutes" min="1" max="10"  step="1" value="2"/>
+                      </p>
+                    </label>
+		    <label>
+		      <input class="with-gap" name="automode_pattern" value="2" type="radio"/>
+		      <span data-t>paragramcamera.bothtype</span>
+                    </label><BR>                      
+		    <label>
+		      <input class="with-gap" name="automode_pattern" value="1" type="radio"/>
+		      <span data-t>paragramcamera.tracktype</span>
+		    </label><BR>
+                    <label>
+		      <input class="with-gap" name="automode_pattern" value="0" type="radio"/>
+		      <span data-t>paragramcamera.ridetype</span>
+		    </label><BR>                      
+                  </p>
+                  <BR><BR>
+                  <p>
+                    <label>
+                      <input type="checkbox" class="filled-in" id="gh_camerahorizontalcheckbox"/>
+                      <span data-t>paragramcamera.horizontal</span>
+                    </label>
+                  </p>
+                </div>
+            </div>
+        </div>
+        <!-- Left Side Nav -->
+
+	<!--  Drop Down Content -->
+        <ul id="gh_viewpointdropdown" class="dropdown-content">
+          <li><a href="javascript:ghChangeViewpoint(10);"><img src="../images/eye-front.png" data-t="viewpoint.driver"></a></li>
+	  <li><a href="javascript:ghChangeViewpoint(12);"><img src="../images/eye-right.png" data-t="viewpoint.right"></a></li>
+	  <li><a href="javascript:ghChangeViewpoint(13);"><img src="../images/eye-left.png" data-t="viewpoint.left"></a></li>
+          <li><a href="javascript:ghChangeViewpoint(20);"><img src="../images/tracking.png" data-t="viewpoint.tracking"></a></li>
+          <li><a href="javascript:ghChangeViewpoint(22);"><img src="../images/track-front.png" data-t="viewpoint.fronttracking"></a></li>
+          <li><a href="javascript:ghChangeViewpoint(23);"><img src="../images/track-back.png" data-t="viewpoint.behindtracking"></a></li>
+          <li><a href="javascript:ghChangeViewpoint(24);"><img src="../images/track-right.png" data-t="viewpoint.righttracking"></a></li>
+          <li><a href="javascript:ghChangeViewpoint(25);"><img src="../images/track-left.png" data-t="viewpoint.lefttracking"></a></li>
+          <li><a href="javascript:ghChangeViewpoint(30);"><img src="../images/free_view.png" data-t="viewpoint.free"></a></li>
+	</ul>
+        <ul id="gh_startdropdown" class="dropdown-content">
+          <li><i class="material-icons left">search</i><a href="javascript:ghOpenStartModal();" data-t>navigator.new</a></li>
+	  <li class="divider"></li>
+	  <li><i class="material-icons left">save</i><a href="javascript:ghOpenSaveModal();" data-t>navigator.save</a></li>
+	</ul>
+	<!--  Drop Down Content -->
+	
+        <!-- Footer -->
+        <footer class="page-footer">
+            <div class="container">
+                <div class="row"  style="height:48px;width:90%;">
+                    <div class="col s2">
+		      <a href="javascript:ghOpenTimePicker();"><i class="material-icons" >access_time</i>
+		      <span style="font-size:20px;" id="gh_currenttime">12:12:32</span></a>
+		      <input id="gh_currenttime_input" type="hidden" class="timepicker" >
+                    </div>
+                    <div class="col s2">
+                        <a class="waves-effect waves-light btn blue disabled tooltipped" id="gh_playbutton"><i class="material-icons">play_arrow</i>&nbsp; play &nbsp;</a>
+                    </div>
+                    <div class="col s2">
+                        <a class="waves-effect waves-light btn red disabled" id="gh_pausebutton"><i class="material-icons">pause</i>&nbsp; pause &nbsp; </a>
+                    </div>                 
+                    <div class="col s2 range-field" id="gh_speed_range-field">
+                        <input type="range" name="cesiumspeed" id="gh_modelspeed" min="1" max="10" step="1" value="1" style="border: 0px solid #ffffff;"/>
+                    </div>                    
+                    <div class="col s1">
+                        <!-- empty  --> <BR>
+                    </div>                    
+                    <div class="col s1">
+                        <a class="btn-small"><i class="material-icons" id="gh_openleafletbtn" >map</i></a>
+                    </div>                   
+                    <div class="col s1">
+                        <a class="btn-small modal-trigger" href="#gh_footer-modal-0"><i class="material-icons" id="gh_openchartbtn">timeline</i></a>
+                    </div>
+                    <div class="col s1">
+                        <a class="btn-small modal-trigger" href="#gh_footer-modal-1"><i class="material-icons" id="gh_opensoundtbtn">hearing</i></a>
+                    </div>
+                </div>
+                <!-- Floating Setting Button -->
+                <div class="fixed-action-btn" style="position:relative;left:-80px;top:-84px;width:32px;z-index:10;">
+                    <a class="btn-floating grey">
+                        <i class="large material-icons">settings</i>
+                    </a>
+                    <ul>
+                        <li><a class="btn-floating grey darken-4" href="javascript:ghTabSelect(1);"><i class="material-icons">build</i></a></li>
+                        <li><a class="btn-floating grey darken-3" href="javascript:ghTabSelect(2);"><i class="material-icons">edit_attributes</i></a></li>
+                        <li><a class="btn-floating grey darken-2" href="javascript:ghTabSelect(3);"><i class="material-icons">directions_railway</i></a></li>
+			<li><a class="btn-floating grey darken-1" href="javascript:ghTabSelect(4);"><i class="material-icons">camera_alt</i></a></li>
+                    </ul>
+                </div>
+                <div class="row" style="margin-top:-48px;">
+                    <div class="col l6 s12">
+                        <!--  Left Side  -->
+                        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <!-- geoglyph2 -->
+                        <ins class="adsbygoogle"
+                             style="display:block"
+                             data-ad-client="ca-pub-3454291972460940"
+                             data-ad-slot="2031507139"
+                             data-ad-format="auto"
+                             data-full-width-responsive="true"></ins>
+                        <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div>
+                    <div class="col l6 s12">
+                        <!--  Right Side -->
+                        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                        <!-- geoglyph2 -->
+                        <ins class="adsbygoogle"
+                             style="display:block"
+                             data-ad-client="ca-pub-3454291972460940"
+                             data-ad-slot="2031507139"
+                             data-ad-format="auto"
+                             data-full-width-responsive="true"></ins>
+                        <script>
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                        </script>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <div class="container">
+                    © 2021 Copyright Geoglyph Rail 3D
+                </div>
+            </div>
+        </footer>
+        <!-- Footer -->
+<!--  -->
+        <!-- Footer Modal -->
+        <div id="gh_footer-modal-0" class="modal bottom-sheet" style="background:#020202;">
+            <div class="modal-content">
+                <div id="gh_chartcontainer" style="height:140px;background:#020202;"></div>
+            </div>
+            <div class="modal0footer">
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat" style="color:#fff;" data-t="modal.close"></a>
+            </div>
+        </div>
+        <div id="gh_footer-modal-1" class="modal bottom-sheet" style="background:#020202;">
+            <div class="modal-content">
+                <div class="row">
+                  <div class="col s1">
+                    <label>
+                      <input name="trainaudio" value="non" type="radio" checked/>
+                      <span data-t="modal.none"></span>
+                    </label>
+		  </div>
+                  <div class="col s1">
+                    <label>
+                      <input name="trainaudio" value="audiotype1" type="radio"/>
+                      <span data-t="modal.sound1"></span>
+                    </label>
+		  </div>
+                  <div class="col s2">
+                    <audio id="audiotype1" controls loop ><source src="../RSC/audio/sound_of_train_30min.mp3" type="audio/mp3">BGM not available</audio>
+		  </div>
+                  <div class="col s1">
+                    <label>
+                      <input name="trainaudio" value="audiotype2" type="radio"/>
+                      <span data-t="modal.sound2"></span>
+                    </label>
+		  </div>
+                  <div class="col s2">
+                    <audio id="audiotype2" controls loop ><source src="../RSC/audio/sound_of_train_beograd.mp3" type="audio/mp3">BGM not available</audio>
+		  </div>
+                  <div class="col s1">
+                    <label>
+                      <input name="trainaudio" value="audiotype3" type="radio"/>
+                      <span data-t="modal.sound3"></span>
+                    </label>
+		  </div>
+                  <div class="col s2">
+                    <audio id="audiotype3" controls loop ><source src="../RSC/audio/sound_of_train_highspeed.mp3" type="audio/mp3">BGM not available</audio>
+		  </div>
+	      	</div>
+            </div>
+            <div class="modal0footer">
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat" style="color:#fff;" data-t="modal.close"></a>
+            </div>
+        </div>
+
+        <!-- Leaflet Map -->
+        <div id="gh_2Ddialog" title="Control Map">
+            <div class="leftpane" id="gh_leafletmap"></div>
+        </div>
+        <!-- Leaflet Map -->
+
+        <!-- Start Modal Structure -->
+        <div id="gh_startmodal" class="modal" style="height:80%;width:640px;">
+            <div class="modal-content">
+                <h4 data-t="modal.selectdata"></h4>
+                <form action="#">
+                  <div class="row">
+		    <div class="input-field col s6">
+		      <select class="icons" id="gh_country_list" size="5"></select>
+		      <i class="small material-icons">language</i><label data-t="modal.country"></label>
+		    </div>
+		    <div class="col s6">
+		      <!--   Empty -->
+		    </div>
+		  </div>
+		  <div class="row">
+		    <div class="input-field col s12">
+		      <select class="icons" id="gh_tcode_list"></select>
+		      <i class="small material-icons">train</i><label data-t="modal.line"></label>
+		    </div>
+                  </div>
+                </form><BR>
+		<a href="rail2map.html" class="ui medium rounded image">
+                  <img src="../images/linemap.jpg" style="width:105px;height:54px;"><i class="material-icons">launch</i><span data-t="modal.selectmap"></span>
+                </a>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect btn blue-grey" data-t="modal.no"></a>&nbsp;&nbsp;
+                <a href="javascript:ghStartModalInputCheck();" class="modal-close waves-effect waves-green btn"><i class="material-icons right">send</i><span data-t="modal.ok"></span></a>
+            </div>
+        </div>            
+        <!-- Start Modal Structure -->
+        
+        <!-- Time Modal Structure -->
+        <div id="gh_timemodal" class="modal" style="height:400px;width:640px;">
+            <div class="modal-content">
+              <h4 data-t="modal.timetableline"></h4>
+	      <div id="gh_timemodal_list"></div>
+             </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect btn blue-grey" data-t="modal.no"></a>&nbsp;&nbsp;
+                <a target="_blank" rel="noopener" href="railtime.html" class="modal-close waves-effect waves-green btn"><i class="material-icons right">open_in_new</i><span data-t="modal.ok"></span></a>
+            </div>
+        </div>            
+        <!-- Time Modal Structure -->
+	
+        <!-- Update Modal Structure -->
+        <div id="gh_updatemodal" class="modal" style="height:400px;width:640px;">
+            <div class="modal-content">
+              <h4 data-t="modal.updatetimetable"></h4>
+	      <div id="gh_update_timetable_line"></div>
+	      <p data-t="modal.confirmtimetable"></p>
+	      <input id="gh_update_timetable_lineid" type="hidden">
+              <input id="gh_update_timetable_way" type="hidden">
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect btn blue-grey" data-t="modal.no"></a>&nbsp;&nbsp;
+                <a href="javascript:ghUpdateTimetableModal();" class="modal-close waves-effect waves-green btn"><i class="material-icons right">check</i><span data-t="modal.ok"></span></a>
+            </div>
+        </div>            
+        <!-- Update Modal Structure -->
+	
+        <!-- Save Modal Structure -->
+        <div id="gh_savemodal" class="modal" style="height:400px;width:640px;">
+            <div class="modal-content">
+                <h4 data-t="modal.savefield"></h4>
+                <i class="material-icons left">error_outline</i><span data-t="modal.savefieldwarning"></span><BR>
+                <div class="preloader-wrapper" id="gh_save_loader">
+                    <div class="spinner-layer spinner-green-only">
+                        <div class="circle-clipper left">
+                            <div class="circle"></div>
+                        </div><div class="gap-patch">
+                            <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                            <div class="circle"></div>
+                        </div>
+                    </div>
+                </div>
+                <div id="gh_save_field_message"></div>
+                <div id="gh_save_field_button"><button id="fieldsavebutton"><i class="material-icons left">save</i>..</button></div><!--  <a id="jsondownload"><i class="material-icons">download</i></a> -->
+                <input id="gh_save_field_data" type="hidden">
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close yellow btn-flat" data-t="modal.ok"></a>
+            </div>
+        </div>            
+        <!-- Save Modal Structure -->
+		
+        <!-- About Modal Structure -->
+        <div id="gh_aboutmodal" class="modal" style="background:#424242;color:#b0bec5;">
+            <div class="modal-content">
+                <img src="../images/Geoglyph-logo-s-l.png">
+                <h4>Geoglyph rail 3D</h4>
+                <div id="gh_aboutcontent"></div>
+		<iframe width="420" height="236" src="https://www.youtube.com/embed/EmDAHDmvjA8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><BR><BR>
+            </div>
+            <div class="modal-footer" style="background:#424242;color:#b0bec5;">
+                <i class="material-icons">copyright</i>2021 Hirakata Farm.&nbsp;&nbsp;&nbsp;&nbsp;<a href="#!" class="modal-close yellow btn-flat" data-t="modal.ok"></a>
+            </div>
+        </div>        
+        <!-- About Modal Structure -->        
+
+	<script src="ghLang.js"></script>
+	<script src="ghUncode.js"></script>
+	<script src="../js/turfRail.min.js"></script>
+	<script src="../js/ghRailBroadcast.js"></script>
+        <script src="../js/ghRail.js"></script>
+	<script src="../js/ghRailWeather.js"></script>
+	<script src="../js/ghRail3Dtile.js"></script>
+	<!-- material icon https://material.io/resources/icons/?style=baseline -->
+    </body>
+</html>

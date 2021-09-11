@@ -1,0 +1,5 @@
+{
+ "size" : [ 25.16, 23.86, 23.85, 25.1 ],
+ "interval" : [ 21.61, 24.93, 23.68 ],
+ "model" : [ "locomotive/ICE_3-car1.glb","locomotive/ICE_3-car2.glb","locomotive/ICE_3-car3.glb","locomotive/ICE_3-car4.glb" ]
+}

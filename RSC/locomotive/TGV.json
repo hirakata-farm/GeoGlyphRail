@@ -1,0 +1,5 @@
+{
+ "size" : [ 22.35, 21.8, 21.8, 22.65 ],
+ "interval" : [ 20.16, 21.93, 22.65 ],
+ "model" : [ "locomotive/TGV-car1.glb","locomotive/TGV-car2.glb","locomotive/TGV-car3.glb","locomotive/TGV-car4.glb" ]
+}

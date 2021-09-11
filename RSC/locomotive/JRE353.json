@@ -1,0 +1,5 @@
+{
+ "size" : [ 19.88, 19.50, 19.50, 19.51 ],
+ "interval" : [ 19.68, 19.56, 19.70 ],
+ "model" : [ "locomotive/JRE353-simple-car1.glb","locomotive/JRE353-simple-car2.glb","locomotive/JRE353-simple-car3.glb","locomotive/JRE353-simple-car4.glb" ]
+} 
