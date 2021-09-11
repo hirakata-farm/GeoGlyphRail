@@ -1,8 +1,8 @@
 {
     "type": "geoglyph rail 3D",
     "version": "5.1",
-    "urilist": ["//192.168.2.11/Geo5/rail/RSC/", "//192.168.2.11/Geo5/rail/RSC/"],
-    "urilist_public": ["//earth.geoglyph.info/rail/RSC/", "//earth.geoglyph.info/rail/RSC/"],
+    "urilist_local": ["//192.168.2.11/Geo5/rail/RSC/", "//192.168.2.11/Geo5/rail/RSC/"],
+    "urilist": ["//earth.geoglyph.info/rail/RSC/", "//earth.geoglyph.info/rail/RSC/"],
     "fieldlist": {
         "10ES12ES": {
             "name": "___532___",
