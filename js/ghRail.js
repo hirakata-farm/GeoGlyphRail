@@ -3936,11 +3936,11 @@ if(window.BroadcastChannel){
 $(document).ready(function(){
 
     if(typeof jQuery == "undefined"){ //jQuery
-        alert('Cannot load jQuery.. ');
+        console('Cannot load jQuery.. ');
 	alert(GH_ERROR_MSG['jquerylibrarynotsupport']);
     }
     if(typeof L == "undefined"){ //leaflet
-        alert('Cannot load leaflet.. ');
+        console('Cannot load leaflet.. ');
 	alert(GH_ERROR_MSG['leafletlibrarynotsupport']);
     }
 

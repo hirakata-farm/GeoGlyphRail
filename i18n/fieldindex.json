@@ -161,7 +161,19 @@
             "file": "fields/7810THSRC.field",
             "polyline": ["lines/7810THSRC/7810TH_1S.polyline"],
             "uncode": ["UN156B"]
-        }       
+        }       ,
+	"320ACELA": {
+	     "name" : "___057___",
+	     "file" : "fields/320ACELA.field",
+	     "polyline" : ["lines/320ACELA/320_4N.polyline"],
+	     "uncode" : [ "UN840" ]
+	},
+	"5132AFROSIYOB": {
+	     "name" : "___080___",
+	     "file" : "fields/5132AFROSIYOB.field",
+	     "polyline" : ["lines/5132AFROSIYOB/5132_5W.polyline"],
+	     "uncode" : [ "UN860" ]
+	    }
     },
     "uncodelist": {
         "UN040": ["950RJ"],
@@ -191,6 +203,8 @@
         "UN752": ["740SJ"],
         "UN756": ["341LYRIA"],
         "UN792": ["3900YHT"],
-        "UN826": ["10ES12ES"]
+        "UN826": ["10ES12ES"],
+	"UN840": ["320ACELA"],
+	"UN860": ["5132AFROSIYOB"]
     }
 }
