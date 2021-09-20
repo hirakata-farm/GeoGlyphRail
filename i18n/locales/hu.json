@@ -22,6 +22,7 @@
       "3dtiletexture":"Sokszög textúrával",
       "weather":"Időjárás",
       "sunny":"Napos",
+      "cloud":"Felhő",
       "rainy":"Esős",
       "rainsound":"Eső hanghatás"
   },

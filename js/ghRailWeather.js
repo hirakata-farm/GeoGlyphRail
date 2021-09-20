@@ -1,6 +1,6 @@
 /////////////////////////////
 //
-//  Cesium Weather component
+//  ghRail Weather component
 //
 //  Require Cesiumjs
 //
@@ -56,24 +56,31 @@ function ghRainGetArea(c) {
     c1.latitude = c1.latitude-0.001;
     return Cesium.Rectangle.fromCartographicArray([c,c0,c1]);
 }
-function ghRainCalcRandom(s,r) {
-    return s + Cesium.Math.nextRandomNumber() * r - ( r / 2 );
+
+function ghRainRandomSeed() {
+    var date = new Date() ;
+    var a = date.getTime() % 1000000 ;
+    Cesium.Math.setRandomNumberSeed( a );
 }
+function ghRainRandomInRange(minValue, maxValue) {
+    return (minValue + Cesium.Math.nextRandomNumber() * (maxValue - minValue));
+}    
 function ghRainMovePrimitive(pos,entity) {
     var center = new Cesium.Cartographic();
     pos.clone(center);
     var coef = Cesium.Math.nextRandomNumber() * 0.69777 - 0.34888; // 40 degrees ( +- 20 deg )
     var rotz = new Cesium.Matrix3.fromRotationZ( coef , new Cesium.Matrix3() );
     var m = Cesium.Matrix4.multiplyByMatrix3(
-	Cesium.Transforms.eastNorthUpToFixedFrame(
-	    Cesium.Cartesian3.fromRadians( center.longitude, center.latitude, 0.0)
-	),
-	rotz,
-	new Cesium.Matrix4());
+	    Cesium.Transforms.eastNorthUpToFixedFrame(
+    	    Cesium.Cartesian3.fromRadians( center.longitude, center.latitude, 0.0)
+    	),
+    	rotz,
+    	new Cesium.Matrix4()
+    );
     entity.modelMatrix = m;
 }
 function ghRainCreatePrimitive(pos,points) {
-    //pos cartographic
+    //pos = camera cartographic
     var maxradii = 200;
     //var points_coeff = 100; // >= maxradii
     var center = new Cesium.Cartographic();
@@ -81,43 +88,45 @@ function ghRainCreatePrimitive(pos,points) {
     var c = new Array();
     var m = new Cesium.Matrix4();
     var maxpoints = 0;
-    Cesium.Math.setRandomNumberSeed( 19 );
+    ghRainRandomSeed();
 
     for(var r = 1; r < maxradii; r++)  {
-	maxpoints = (points/r); // y = k / r 
-	maxpoints = maxpoints|0;
-	for(var j = 0; j < maxpoints; j++)  {
-	    var t = Cesium.Math.nextRandomNumber() * Cesium.Math.TWO_PI;
-	    var offset = ghRainCalcRandom(0,10);
-	    var x =  r * Math.cos(t);
-	    var y =  r * Math.sin(t);
-	    c.push ( new Cesium.GeometryInstance({
-		geometry : new Cesium.SimplePolylineGeometry({
-		    positions : [ new Cesium.Cartesian3.fromElements(x,y,8000.0),
-				  new Cesium.Cartesian3.fromElements(x+offset,y+offset,-100.0) ]
-		}),
-		id: "rain_polyline",
-		attributes: {
-		    color: Cesium.ColorGeometryInstanceAttribute.fromColor(Cesium.Color.LIGHTSLATEGRAY.withAlpha(0.0))
-		}
-	    }) );
-	}
+    	maxpoints = (points/r); // y = k / r 
+	    maxpoints = maxpoints|0;
+	    for(var j = 0; j < maxpoints; j++)  {
+    	    var t = ghRainRandomInRange(0,Cesium.Math.TWO_PI);
+	        var offset = ghRainRandomInRange(0,11);
+	        var x =  r * Math.cos(t);
+	        var y =  r * Math.sin(t);
+	        c.push ( new Cesium.GeometryInstance({
+		        geometry : new Cesium.SimplePolylineGeometry({
+		            positions : [ 
+                        new Cesium.Cartesian3.fromElements(x,y,8000.0),
+				        new Cesium.Cartesian3.fromElements(x+offset,y+offset,-100.0)
+                    ]
+		        }),
+		        id: "rain_polyline",
+		        attributes: {
+        		    color: Cesium.ColorGeometryInstanceAttribute.fromColor(Cesium.Color.LIGHTSLATEGRAY.withAlpha(0.0))
+		        }
+	        }) );
+	    }
     }
 
     pos.clone(center);
     m = Cesium.Transforms.eastNorthUpToFixedFrame(
-	Cesium.Cartesian3.fromRadians(center.longitude,center.latitude,0.0));
+        	Cesium.Cartesian3.fromRadians(center.longitude,center.latitude,0.0)
+        );
 
     return new Cesium.Primitive({
-	geometryInstances : c,
-	allowPicking : false,
-        vertexCacheOptimize: true,
-	modelMatrix : m,
-	appearance : new Cesium.PerInstanceColorAppearance({
-	    fragmentShaderSource : GH_RAIN_SHADER_SRC
-	})
-    });
-
+               	geometryInstances : c,
+	            allowPicking : false,
+                vertexCacheOptimize: true,
+	            modelMatrix : m,
+	            appearance : new Cesium.PerInstanceColorAppearance({
+	                fragmentShaderSource : GH_RAIN_SHADER_SRC
+	            })
+            });
 }
 function ghRainRemove(scene,entity) {
     if ( entity != null ) {
@@ -125,6 +134,53 @@ function ghRainRemove(scene,entity) {
     }
     entity = null;
 }
+function ghCloudCalculateSunBright(pos,gregoriandate) {
+    //pos = camera Cartographic
+    // gregoriandate = Cesium.GregorianDate
+    //
+    //  suncalc.js  
+    //  https://github.com/mourner/suncalc
+    //
+    var cdate = new Date( gregoriandate.year, (gregoriandate.month - 1 ) , gregoriandate.day, gregoriandate.hour, gregoriandate.minute );
 
+    var sunpos = SunCalc.getPosition(cdate, pos.latitude,pos* 180 / Math.PI, pos.longitude* 180 / Math.PI);
+    console.log(sunpos.altitude*180/Math.PI);
+    if ( sunpos.altitude > 0.523599 )  {
+       //  0.523599 radian = 30 degree
+       return 0.93; // brightness
+    } else if ( sunpos.altitude > 0.0523599 ) {
+        //  0.0523599 radian = 3 degree
+        return 0.4; // brightness
+    } else {
+        return 0.2;
+    }
+}
+function ghCloudCreatePrimitive(pos,clouds,maxcloud,basebright,baseslice) {
+    //pos = camera cartographic    
+    var lng = pos.longitude; // Radian
+    var lat = pos.latitude;  // Radian
+    ghRainRandomSeed();
 
+    for(var cnt = 0; cnt < maxcloud ; cnt++)  {
+        var t0 = ghRainRandomInRange(-0.012,0.011);
+        var t1 = ghRainRandomInRange(-0.011,0.012);
+        var height = ghRainRandomInRange(1000,2000);
+        var scalex = ghRainRandomInRange(16000,18000);
+        var scaley = ghRainRandomInRange(2000,3000);
+        clouds.add({
+            position: Cesium.Cartesian3.fromRadians(lng+t0,lat+t1,height),
+            scale: new Cesium.Cartesian2(scalex,scaley),
+            maximumSize: new Cesium.Cartesian3( 60+(97*t1), 10+(31*t0) , 15+(79*t0)+(101*t1) ),
+            brightness : Cesium.Math.clamp(basebright + ( 2 * t0 ),  0.0,  1.0),
+            slice: Cesium.Math.clamp(baseslice+(31*t0)+(23*t1),  0.2,  0.99),
+        });
+            //  maximumSize: new Cesium.Cartesian3(50, 12, 15),
+            //  scale: new Cesium.Cartesian2(20000, 3000),
+    }
+}
 
+function ghCloudRemove(cloud) {
+    if ( cloud != null ) {
+    	cloud.removeAll();
+    }
+}

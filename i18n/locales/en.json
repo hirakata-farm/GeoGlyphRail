@@ -22,6 +22,7 @@
       "3dtiletexture":"Polygon with texture",
       "weather":"Weather",
       "sunny":"Sunny",
+      "cloud":"Cloud",
       "rainy":"Rainy",
       "rainsound":"Rain sound effect"
   },

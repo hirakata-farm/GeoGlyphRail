@@ -22,6 +22,7 @@
       "3dtiletexture":"Polygone avec texture",
       "weather":"Conditions météorologiques",
       "sunny":"Ensoleillé",
+      "cloud":"Nuage",
       "rainy":"Pluvieux",
       "rainsound":"Effet sonore de pluie"
   },

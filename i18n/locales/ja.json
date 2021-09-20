@@ -21,8 +21,9 @@
       "3dtilepolygon":"ポリゴン",
       "3dtiletexture":"テクスチャのあるポリゴン",
       "weather":"天気",
-      "sunny":"サニー",
-      "rainy":"雨の",
+      "sunny":"晴",
+      "cloud":"雲",
+      "rainy":"雨",
       "rainsound":"雨の効果音"
   },
   "paragram2d": {

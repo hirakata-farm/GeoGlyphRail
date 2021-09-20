@@ -220,6 +220,7 @@ var GH_UNIT_PROP = {
 var GH_ENTITY = {
     "tile3d" : null,
     "rain" : null,
+    "cloud" : null,
     "line" : [],
     "unit" : {},
     "unitczml" : [],
@@ -402,6 +403,10 @@ function ghRainPlayAudio(flag) {
 	}
     }
 }
+//
+//   Cloud function
+//
+var GH_IS_CLOUD= false;
 
 
 ////////////////////////////////////////
@@ -1073,7 +1078,7 @@ function ghInitMaterializeUI() {
         ghChangeLeafletPolylineSize( $(this).val() );
     });
     $( '#gh_polyline_distance_marker_checkbox').change(function(){
-	ghChangeLeafletPolylineMarker( $(this).is(':checked') );
+	    ghChangeLeafletPolylineMarker( $(this).is(':checked') );
     });
     $('input[name="bahnhoficonsize"]:radio').change(function(){
         ghChangeLeafletBahnhofIconSize( $(this).val() );
@@ -1085,32 +1090,32 @@ function ghInitMaterializeUI() {
     ////////////////////
     // Weather
     $('input[name="gh_weather"]:radio').change(function(){
-	var radio = $(this).val();
-	var check = $( '#gh_rainsoundcheckbox').is(':checked');
-	var slider = $( '#gh_rainslider').val();
-	ghChangeCesiumWeather( radio, check, slider );
+	    var radio = $(this).val();
+	    var check = $( '#gh_rainsoundcheckbox').is(':checked');
+    	var slider = $( '#gh_rainslider').val();
+	    ghChangeCesiumWeather( radio, check, slider );
     });
     $( '#gh_rainsoundcheckbox').change(function(){
-	var radio = "non";    
-	$('input[name="gh_weather"]').each(function(i){
+	    var radio = "non";    
+	    $('input[name="gh_weather"]').each(function(i){
             if ( $(this).is(':checked') ) {
-		radio = $(this).attr('value');
+	    	    radio = $(this).attr('value');
             }
-	});
+	    });
         var slider = $( '#gh_rainslider').val();
         ghEnableCesiumRainAudio( radio, $(this).is(':checked') ,slider );
     });
     $( 'input[name="raindensity"]' ).change( function () {
-	var radio = "non";    
-	$('input[name="gh_weather"]').each(function(i){
+	    var radio = "non";    
+	    $('input[name="gh_weather"]').each(function(i){
             if ( $(this).is(':checked') ) {
-		radio = $(this).attr('value');
+		        radio = $(this).attr('value');
             }
-	});
-	var id = $(this).prop('id');
-	var check = $( '#gh_rainsoundcheckbox').is(':checked');
-	ghSetCesiumRainDensity( radio, check, $(this).val() );
-    } );
+	    });
+	    var id = $(this).prop('id');
+    	var check = $( '#gh_rainsoundcheckbox').is(':checked');
+    	ghSetCesiumRainDensity( radio, check, $(this).val() );
+    });
     // Weather
     ////////////////////
     
@@ -1380,37 +1385,37 @@ function ghPickLeafletData(ent,type,ev){
 function ghInitCesium() {
 
     GH_V = new Cesium.Viewer('gh_cesiumContainer',{
-	animation : false,
-	baseLayerPicker : true,
-	fullscreenButton : false,
-	geocoder : false,
-	homeButton : false,
-	infoBox : true,
-	skyBox : false,
-	sceneModePicker : false,
-	selectionIndicator : true,
-	timeline : true,
-	navigationHelpButton : true,
-	sceneMode : Cesium.SceneMode.SCENE3D,
-	scene3DOnly : true,
-	shadows : false,
-	vrButton: false,
-	terrainShadows : Cesium.ShadowMode.DISABLED,
-	automaticallyTrackDataSourceClocks : true,
-	contextOptions : {
-            webgl : {
-		powerPreference: 'high-performance'
-            }
-	}
-    });
+	        animation : false,
+	        baseLayerPicker : true,
+	        fullscreenButton : false,
+	        geocoder : false,
+	        homeButton : false,
+	        infoBox : true,
+	        skyBox : false,
+	        sceneModePicker : false,
+	        selectionIndicator : true,
+	        timeline : true,
+        	navigationHelpButton : true,
+	        sceneMode : Cesium.SceneMode.SCENE3D,
+        	scene3DOnly : true,
+	        shadows : false,
+	        vrButton: false,
+	        terrainShadows : Cesium.ShadowMode.DISABLED,
+	        automaticallyTrackDataSourceClocks : true,
+	        contextOptions : {
+                webgl : {
+            	    powerPreference: 'high-performance'
+                }
+	        }
+        });
     GH_TPV[0] = new Cesium.createWorldTerrain({
-	requestWaterMask: false,
-	requestVertexNormals : true
-    });
+	        requestWaterMask: false,
+	        requestVertexNormals : true
+        });
     GH_TPV[1] = new Cesium.createWorldTerrain({
-	requestWaterMask: true,
-	requestVertexNormals : true
-    });
+	        requestWaterMask: true,
+	        requestVertexNormals : true
+        });
     GH_TPV[2] = new Cesium.EllipsoidTerrainProvider();
 
     GH_V.terrainProvider = GH_TPV[0];
@@ -1465,7 +1470,7 @@ function ghInitCesium() {
     var act = new Cesium.ScreenSpaceEventHandler(GH_V.scene.canvas);
     act.setInputAction(
 	function (evt) {
-            var pick = GH_V.scene.pick(evt.position);
+        var pick = GH_V.scene.pick(evt.position);
 	    if ( Cesium.defined(pick) && Cesium.defined(pick.id) ) {
 		if ( Cesium.defined(pick.id.position) && pick.id.name.indexOf('ghtree') < 0 ) {
 		    ghPickCesiumData(pick.id,evt);
@@ -1485,9 +1490,9 @@ function ghSetCesiumAnimationMultiplier(val) {
     if ( isNaN(val) ) return;
     var v = 0;
     if ( GH_IS_RECIPROCAL ) {
-	v = parseFloat(1/val);
+	    v = parseFloat(1/val);
     } else {
-	v = parseFloat(val);
+	    v = parseFloat(val);
     }
     GH_V.clock.multiplier = v;
 }
@@ -1514,12 +1519,12 @@ function ghSetCesiumModelScale(val) {
 
     for ( var key in GH_ENTITY.unit ) {
         if ( GH_ENTITY.unit[key].status == GH_UNIT_STATUS_GLTF ) {
-	    var coach=GH_ENTITY.unit[key].entity;
-	    for (var i=0,ilen=coach.length; i<ilen; i++) {
-		coach[i].model.scale = GH_UNIT_PROP.scale;
+	        var coach=GH_ENTITY.unit[key].entity;
+	        for (var i=0,ilen=coach.length; i<ilen; i++) {
+    		    coach[i].model.scale = GH_UNIT_PROP.scale;
                 coach[i].model.distanceDisplayCondition = new Cesium.DistanceDisplayCondition(0.0,  GH_UNIT_PROP.scale * GH_UNIT_PROP.distance);
+	        }
 	    }
-	}
     }
 }
 function ghSetCesiumStationLabelScale(val) {
@@ -1546,31 +1551,31 @@ function ghShowCesiumSpeedoMeter(flag) {
 function ghEnableCesiumSunEffect(flag) {
     if ( GH_V == null ) return;
     if ( flag ) {
-	GH_V.scene.globe.enableLighting = true;
-	GH_V.scene.sun = new Cesium.Sun();
+    	GH_V.scene.globe.enableLighting = true;
+    	GH_V.scene.sun = new Cesium.Sun();
         GH_V.shadows = true;
-	GH_V.terrainShadows = Cesium.ShadowMode.RECEIVE_ONLY;
+	    GH_V.terrainShadows = Cesium.ShadowMode.RECEIVE_ONLY;
     } else {
-	GH_V.scene.globe.enableLighting = false;
-	GH_V.scene.sun = null; //undefined;
+	    GH_V.scene.globe.enableLighting = false;
+    	GH_V.scene.sun = null; //undefined;
         GH_V.shadows = false;
-	GH_V.terrainShadows = Cesium.ShadowMode.DISABLED;
+	    GH_V.terrainShadows = Cesium.ShadowMode.DISABLED;
     }
 }
 function ghEnableCesiumWaterEffect(flag) {
     if ( GH_V == null ) return;
     if ( flag ) {
-	GH_V.scene.globe.enableLighting = true;
-	GH_V.scene.sun = new Cesium.Sun();
+    	GH_V.scene.globe.enableLighting = true;
+    	GH_V.scene.sun = new Cesium.Sun();
         GH_V.shadows = true;
-	GH_V.terrainShadows = Cesium.ShadowMode.RECEIVE_ONLY;
-	GH_V.terrainProvider = GH_TPV[1];
+    	GH_V.terrainShadows = Cesium.ShadowMode.RECEIVE_ONLY;
+    	GH_V.terrainProvider = GH_TPV[1];
     } else {
-	GH_V.scene.globe.enableLighting = false;
-	GH_V.scene.sun = null; //undefined;
+    	GH_V.scene.globe.enableLighting = false;
+    	GH_V.scene.sun = null; //undefined;
         GH_V.shadows = false;
-	GH_V.terrainShadows = Cesium.ShadowMode.DISABLED;
-	GH_V.terrainProvider = GH_TPV[0];
+    	GH_V.terrainShadows = Cesium.ShadowMode.DISABLED;
+    	GH_V.terrainProvider = GH_TPV[0];
     }
 }
 function ghEnableCesiumFogEffect(flag) {
@@ -1691,31 +1696,42 @@ function ghChangeCesiumWeather(val,check,v) {
     // v = rain density
     if ( val == "rain" ) {
         GH_IS_RAIN = true;    
+        GH_IS_CLOUD = false;
         GH_V.scene.skyAtmosphere = new Cesium.SkyAtmosphere(Cesium.Ellipsoid.WGS84,"cloud");
-	//GH_V.scene.sun = new Cesium.Sun();
+	    //GH_V.scene.sun = new Cesium.Sun();
+    } else if ( val == "cloud" ) {
+        GH_IS_RAIN = false;
+        GH_IS_CLOUD = true;    
+        GH_V.scene.skyAtmosphere = new Cesium.SkyAtmosphere(Cesium.Ellipsoid.WGS84,"default");
+    	if ( check ) {
+	        $( '#gh_rainsoundcheckbox').prop('checked',false);
+	    } else {
+    	    // NOP
+	    }  
     } else {
         GH_IS_RAIN = false;
-     	GH_V.scene.skyAtmosphere = new Cesium.SkyAtmosphere(Cesium.Ellipsoid.WGS84,"default");
-	//GH_S.sun = null;
-	//delete GH_V.scene.sun;
-	if ( check ) {
-	    $( '#gh_rainsoundcheckbox').prop('checked',false);
-	} else {
-	    // NOP
-	}
+        GH_IS_CLOUD = false;
+        GH_V.scene.skyAtmosphere = new Cesium.SkyAtmosphere(Cesium.Ellipsoid.WGS84,"default");
+    	//GH_S.sun = null;
+    	//delete GH_V.scene.sun;
+    	if ( check ) {
+	        $( '#gh_rainsoundcheckbox').prop('checked',false);
+	    } else {
+    	    // NOP
+	    }   
     }
     ghEnableCesiumRainAudio(val,check,v);
 }
 function ghEnableCesiumRainAudio(r,c,v) {
     if ( r == "rain" ) {
         if ( GH_C.shouldAnimate && c ) {
-	    ghRainPlayAudio(true);
+	        ghRainPlayAudio(true);
         } else {
-	    // train animation paused now
-	    ghRainPlayAudio(false);
+	        // train animation paused now
+	        ghRainPlayAudio(false);
         }
     } else {
-	ghRainPlayAudio(false);
+	    ghRainPlayAudio(false);
     }
 }
 function ghSetCesiumRainDensity(r,c,v) {
@@ -2835,6 +2851,8 @@ function ghGetCurrentEntity() {
 	return null;
     }
 }
+/////////////////////////////////////////////////
+//   Each Frame Update
 function ghUpdateCesiumScene(scene,currenttime) {
 
     if ( !GH_FIELD_PROP.isok ) return;
@@ -2842,7 +2860,7 @@ function ghUpdateCesiumScene(scene,currenttime) {
     ghShowDisplayClock(currenttime);
     ghBroadcastUpdateTime();
     if ( Cesium.JulianDate.secondsDifference(currenttime,GH_SPEED_METER_PROP.prevtime) > 1 ) {
-	ghSetSpeedoMeter(currenttime);
+    	ghSetSpeedoMeter(currenttime);
     }
     ghUpdateUnitStatus()
 
@@ -2850,37 +2868,37 @@ function ghUpdateCesiumScene(scene,currenttime) {
     // Unit data source GH_ENTITY.unitczml.push(val);
     var unitentity = GH_ENTITY.unitczml;
     for (var k = 0,len=unitentity.length; k < len; k++) {
-	var idx = ghGetUnitIndexFromField(unitentity[k].name);
+	    var idx = ghGetUnitIndexFromField(unitentity[k].name);
         if ( idx < 0 ) {
             // NOP Not found unit
         } else {
-	    if (  GH_ENTITY.unit[ unitentity[k].name ].status > GH_UNIT_STATUS_INIT ) {
-		var list = unitentity[k].entities.values;
-		for(var j = 0,jlen = list.length; j < jlen; j++) {
-		    var e = list[j];
-		    var p1 = new Cesium.Cartesian3();
-		    e.position.getValue(currenttime,p1);
-		    var cp1 = GH_V.scene.globe.ellipsoid.cartesianToCartographic(p1);
-		    // list[j].id = 9024
-		    // unitentity[k].name = 10ES_9024
-		    if ( Cesium.defined( cp1 ) ) {
+	        if (  GH_ENTITY.unit[ unitentity[k].name ].status > GH_UNIT_STATUS_INIT ) {
+		        var list = unitentity[k].entities.values;
+    		    for(var j = 0,jlen = list.length; j < jlen; j++) {
+    		        var e = list[j];
+		            var p1 = new Cesium.Cartesian3();
+		            e.position.getValue(currenttime,p1);
+		            var cp1 = GH_V.scene.globe.ellipsoid.cartesianToCartographic(p1);
+    		        // list[j].id = 9024
+		            // unitentity[k].name = 10ES_9024
+		            if ( Cesium.defined( cp1 ) ) {
                         ghMapLeafletMarker(unitentity[k].name,cp1);
                         ghSetTrainCoach(unitentity[k].name,e,currenttime,p1);
-		    } else {
+		            } else {
                         ghUnMapLeafletMarker(unitentity[k].name);
-			ghUnSetTrainCoach(unitentity[k].name,false);
-		    }
+			            ghUnSetTrainCoach(unitentity[k].name,false);
+		            }
                 }
             }
-        }
+        }   
     }
 
     // Update 2D map
     if ( $('#gh_2Ddialog').dialog('isOpen') ) {
-	ghSetLeafletMap(currenttime);
-	var pos= GH_V.camera.positionCartographic; 
-	var p = new L.LatLng(Cesium.Math.toDegrees(pos.latitude),Cesium.Math.toDegrees(pos.longitude));
-	GH_LAYER.cmarker['cam0'].setLatLng(p)
+	    ghSetLeafletMap(currenttime);
+	    var pos= GH_V.camera.positionCartographic; 
+	    var p = new L.LatLng(Cesium.Math.toDegrees(pos.latitude),Cesium.Math.toDegrees(pos.longitude));
+	    GH_LAYER.cmarker['cam0'].setLatLng(p)
     }
 
     //
@@ -2889,7 +2907,7 @@ function ghUpdateCesiumScene(scene,currenttime) {
     var timecheck = (currenttime.secondsOfDay|0);
     if ( GH_SHOW_3DTILE ) {
         if ( timecheck % GH_3DTILE_PROP.interval == 0 && timecheck != GH_3DTILE_PROP.prevupdate ) {
-	    var e = ghGetCurrentEntity();
+	        var e = ghGetCurrentEntity();
             if ( e != null ) {
                 var nt = Cesium.JulianDate.addSeconds(currenttime, GH_3DTILE_PROP.presec, new Cesium.JulianDate());
                 var p = new Cesium.Cartesian3();
@@ -2919,13 +2937,34 @@ function ghUpdateCesiumScene(scene,currenttime) {
     if ( GH_IS_RAIN ) {
         if ( GH_ENTITY.rain == null ) {
             GH_ENTITY.rain = ghRainCreatePrimitive(GH_V.camera.positionCartographic,GH_RAIN_POINTS);
-	    GH_V.scene.primitives.add(GH_ENTITY.rain);          
-	} else {
-	    ghRainMovePrimitive(GH_V.camera.positionCartographic,GH_ENTITY.rain);
-	}       
+	        GH_V.scene.primitives.add(GH_ENTITY.rain);          
+	    } else {
+    	    ghRainMovePrimitive(GH_V.camera.positionCartographic,GH_ENTITY.rain);
+    	}       
     } else {
         ghRainRemove(GH_V.scene,GH_ENTITY.rain);
-	GH_ENTITY.rain = null;
+    	GH_ENTITY.rain = null;
+    }
+
+    //
+    // Cloud update
+    //
+    if ( GH_IS_CLOUD ) {
+        if ( GH_ENTITY.cloud == null ) {
+            var bright = 0.93;
+            if ( GH_V.scene.sun != null ) {
+                // Enable SUN effect , calculate sun light for Brightness
+                bright = ghCloudCalculateSunBright(GH_V.camera.positionCartographic,ghCesiumJulianTimeToUserGregorianTime(currenttime));
+            };
+            GH_ENTITY.cloud = new Cesium.CloudCollection();
+            ghCloudCreatePrimitive(GH_V.camera.positionCartographic,GH_ENTITY.cloud, GH_RAIN_POINTS, bright, 0.42) ;
+            GH_V.scene.primitives.add(GH_ENTITY.cloud);          
+        } else {
+    	    //ghCloudMovePrimitive(GH_V.camera.positionCartographic,GH_ENTITY.rain);
+    	}       
+    } else {
+        ghCloudRemove(GH_ENTITY.cloud);
+    	GH_ENTITY.cloud = null;
     }
 
     //
@@ -2942,7 +2981,6 @@ function ghUpdateCesiumScene(scene,currenttime) {
         }
     }   
     GH_POV.Prestatus = GH_VIEWPOINT;
-    
     
 }
 ////////////////// End of update
@@ -3722,6 +3760,8 @@ function getUnmaskedInfo(gl) {
 
 function ghCheckData(tc,str) {
 
+    return;
+
     // Ignored Google Bot
     //var userAgent = window.navigator.userAgent.toLowerCase();
     var ua = window.navigator.userAgent;
@@ -3758,7 +3798,7 @@ function ghCheckData(tc,str) {
         url: "//earth.geoglyph.info/cgi/contactform.php",
  	data: {
 	    "language": language ,
-	    "name": "ghRailNeo3",
+	    "name": "ghRail " + GH_REV,
             "checktype": "Rail",
 	    "email" : "info@geoglyph.info", 
 	    "subject" : window.navigator.userAgent,

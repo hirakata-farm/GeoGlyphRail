@@ -3,7 +3,9 @@
 
 Overview
 
-This project to run a train on a virtual globe
+Geoglyph project uses WebGL technology.
+We aim to simulate the movement of railroads and cars on a virtual globe.
+
 
 # Demo ( Hompage )
 

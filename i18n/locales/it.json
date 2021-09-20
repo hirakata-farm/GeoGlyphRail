@@ -22,6 +22,7 @@
       "3dtiletexture":"Poligono con texture",
       "weather":"Tempo atmosferico",
       "sunny":"Soleggiato",
+      "cloud":"Nube",
       "rainy":"Piovoso",
       "rainsound":"Effetto sonoro pioggia"
   },
