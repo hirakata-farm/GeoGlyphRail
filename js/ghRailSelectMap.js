@@ -24,14 +24,30 @@ var GH_FIELDINDEX = {
 
 function ghCreateSelectList() {
     var clist = GH_FIELDINDEX.uncodelist;
+    var list = [];
+    for(var key in clist){    
+	list.push({
+	    "name" : __uncode2country(key,""),
+	    "code" : key,
+	    "flag" : __uncode2flaggif(key)
+	});
+    }
+
+    list.sort(function(a,b){
+	if(a.name<b.name) return -1;
+	if(a.name>b.name) return 1;
+	return 0;
+    });
+    
     var str = "";
     
-    for(var key in clist){    
+    for(var key in list){    
  	str += '<label>';
-        str += '<input name="selectuncode" value="' + key + '" type="radio"/>';
-	str += '<span>' + '<img src="' + __uncode2flaggif(key) + '">&nbsp;' + __uncode2country(key,"") + '</span>';
+        str += '<input name="selectuncode" value="' + list[key].code + '" type="radio"/>';
+	str += '<span>' + '<img src="' + list[key].flag + '">&nbsp;' + list[key].name + '</span>';
         str += '</label><BR>';   
     }
+    
     $('#gh_country_list').append(str);
         
     $('input[name="selectuncode"]:radio').change(function(){
@@ -43,20 +59,7 @@ function ghPopupContext(tc,name) {
     var txt = "<a href=\"rail3m.html?tc=" + tc + "\" title=\"" + tc + "\">" + name + "</a>";
     return txt;
 }
-function ghPopupContext_BK(tcodedata) {
-    var tcode = GH_FIELDINDEX.fieldlist;
-    var str = "";
-    var tc = "";    
-    for(var key in tcode){
-	if ( tcodedata.includes(key) ) {
-	    str = GH_FIELDINDEX.fieldlist[key].name;
-	    tc = key;
-	}
-    }
-    
-    var txt = "<a href=\"rail3m.html?tc=" + tc + "\" title=\"" + tc + "\">" + str + "</a>";
-    return txt;
-}
+
 function ghFitMaps () {
     var maxlen = 0;
     var maxkey = "";

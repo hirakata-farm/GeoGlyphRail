@@ -56,7 +56,7 @@ function __uncode2country(u,t){
     case"UN418":return"area"==t?"asia":"Laos";
     case"UN524":return"area"==t?"asia":"Nepal";
     case"UN586":return"area"==t?"asia":"Pakistan";
-    case"UN144":return"area"==t?"asia":"Sri Lanka";
+    case"UN144":return"area"==t?"asia":"Sri_Lanka";
     case"UN116":return"area"==t?"asia":"Cambodia";
     case"UN360":return"area"==t?"asia":"Indonesia";
     case"UN104":return"area"==t?"asia":"Myanmar";

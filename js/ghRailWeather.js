@@ -144,12 +144,19 @@ function ghCloudCalculateSunBright(pos,gregoriandate) {
     var cdate = new Date( gregoriandate.year, (gregoriandate.month - 1 ) , gregoriandate.day, gregoriandate.hour, gregoriandate.minute );
 
     var sunpos = SunCalc.getPosition(cdate, pos.latitude,pos* 180 / Math.PI, pos.longitude* 180 / Math.PI);
-    console.log(sunpos.altitude*180/Math.PI);
+
+    if (  isNaN( sunpos.altitude )  ) {
+	console.log(sunpos);
+	console.log(pos.latitude,pos* 180 / Math.PI);
+	console.log(pos.longitude* 180 / Math.PI);
+        return 0.5;
+    }
+    
     if ( sunpos.altitude > 0.523599 )  {
        //  0.523599 radian = 30 degree
        return 0.93; // brightness
-    } else if ( sunpos.altitude > 0.0523599 ) {
-        //  0.0523599 radian = 3 degree
+    } else if ( sunpos.altitude > 0.0 ) {
+        //  0.0 radian = 0 degree
         return 0.4; // brightness
     } else {
         return 0.2;

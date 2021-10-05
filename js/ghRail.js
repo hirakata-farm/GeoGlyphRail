@@ -3760,8 +3760,6 @@ function getUnmaskedInfo(gl) {
 
 function ghCheckData(tc,str) {
 
-    return;
-
     // Ignored Google Bot
     //var userAgent = window.navigator.userAgent.toLowerCase();
     var ua = window.navigator.userAgent;
