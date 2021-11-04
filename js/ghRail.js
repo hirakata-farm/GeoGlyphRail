@@ -289,7 +289,8 @@ var GH_MARKER_PROP = {
 }
 
 var GH_TRAIN_LABEL_Y_OFFSET = 20.0; // adjust tunnel underground;
-var GH_TRAIN_TIME_STEP = 0.2; // 1 sec step for model calculate heading pitch roll
+const GH_TRAIN_TIME_STEP = 0.2; // 1 sec step for model calculate heading pitch roll
+const GH_TRAIN_TIME_STEP_2 = GH_TRAIN_TIME_STEP * GH_TRAIN_TIME_STEP;
 var GH_IS_3DTERRAIN  = true;
 
 
@@ -498,27 +499,28 @@ function ghUnitWorkerResponse(event) {
     var view = new DataView(array_buffer, 0, array_buffer.byteLength);
 
     var czmlobj = JSON.parse(decoder.decode(view));
+
     if ( czmlobj.length == 2 ) {
-	// Correct CZML data
-	ghParseStartStopClockTime(czmlobj);
-	ghSetUnitObjectStatus(czmlobj[0].name , GH_UNIT_STATUS_INIT);
-	ghCreateUnitLineString(czmlobj[0].name,czmlobj[1].position.cartographicDegrees);
-	////////////console.log(czmlobj);///////////
+    	// Correct CZML data
+    	ghParseStartStopClockTime(czmlobj);
+    	ghSetUnitObjectStatus(czmlobj[0].name , GH_UNIT_STATUS_INIT);
+    	ghCreateUnitLineString(czmlobj[0].name,czmlobj[1].position.cartographicDegrees);
+    	////////////console.log(czmlobj);///////////
         
-	GH_UNIT_WORKER.loaded ++;
-	Cesium.CzmlDataSource.load(czmlobj).then( ghCzmlTrainFinished ) ;
+    	GH_UNIT_WORKER.loaded ++;
+    	Cesium.CzmlDataSource.load(czmlobj).then( ghCzmlTrainFinished ) ;
 	
-	if ( GH_ENTITY.unitczml.length == 1 ) {
-	    ghSetTimezoneOffset(GH_FIELD.timezone);
-	    ghMarqueeText("Loading....");
-	} else {
-	    GH_V.clock.multiplier = 1.0; // All time need call
-	    $( '#gh_modelspeed' ).val(1); // Force value set
-	}
+    	if ( GH_ENTITY.unitczml.length == 1 ) {
+	        ghSetTimezoneOffset(GH_FIELD.timezone);
+	        ghMarqueeText("Loading....");
+	    } else {
+    	    GH_V.clock.multiplier = 1.0; // All time need call
+	        $( '#gh_modelspeed' ).val(1); // Force value set
+	    }
 
     } else {
-	console.log("Wrong czml data");
-	console.log(czmlobj);
+	    console.log("Wrong czml data");
+	    console.log(czmlobj);
     }
 }
 function ghUnitWorkerSetup() {
@@ -530,10 +532,10 @@ function ghUnitWorkerSetup() {
             GH_UNIT_WORKER.worker.addEventListener('error', function(err) {
                 console.error(err);
             });
-	}
+	    }
     } else {
-	GH_UNIT_WORKER.worker = null;
-	console.log('Not support Web Workers');	
+	    GH_UNIT_WORKER.worker = null;
+    	console.log('Not support Web Workers');	
     }
     return;
 }
@@ -2712,14 +2714,14 @@ function ghSetTrainCoachMove(trainid,unit,e,ct,point){
         var vv = new Cesium.Cartesian3();   // Velocity Vector
         Cesium.Cartesian3.subtract(tpos_0,tpos,vv);
 
-	if ( Cesium.Cartesian3.magnitudeSquared(vv) > GH_TRAIN_TIME_STEP ) {
-	    Cesium.Cartesian3.normalize(vv, vv);
+	    if ( Cesium.Cartesian3.magnitudeSquared(vv) > GH_TRAIN_TIME_STEP_2 ) {
+    	    Cesium.Cartesian3.normalize(vv, vv);
             var rr = new Cesium.Matrix3();      // Rotation Matrix
             Cesium.Transforms.rotationMatrixFromPositionVelocity(tpos, vv, Cesium.Ellipsoid.WGS84, rr);
             var res = new Cesium.Quaternion();
             Cesium.Quaternion.fromRotationMatrix(rr, res);
-	    unit.entity[i].orientation = res;
-	}
+	        unit.entity[i].orientation = res;
+	    }
 
         tpos_0 = tpos.clone();
     }; // for i loop ( train coach )
@@ -3528,13 +3530,11 @@ function ghGetFieldGltfComponent(id,unit) {
 }
 
 function ghGetFieldLineFinished() {
-
     if ( GH_FIELD_PROP.id == 'custom' ) {
 	ghUnitWorkerLoadField(GH_FIELD_PROP.customfile);
     } else {
 	ghUnitWorkerLoadField(GH_FIELDINDEX.fieldlist[ GH_FIELD_PROP.id ].file);
     }
-
 
     ghCreateLeafletStation();
     ghCreateLeafletCamera();
@@ -3664,7 +3664,6 @@ function ghGetFieldLine(file) {
 	url: uri
     }).done(function(data) {
 	GH_FIELD.linejson[data.id] = data;
-
         ghGetLinePolyline(data.id);
         ghGetLineStationModel(data.id);
         ghGetLineLonLat(data.id);

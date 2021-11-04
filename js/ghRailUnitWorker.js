@@ -21,7 +21,7 @@
 //const window = self.window = self;
 window = self.window = self;
 
-importScripts('turf3DtileWorker.min.js');
+//importScripts('turf3DtileWorker.min.js');
 importScripts('../../cesium/Cesium.js');
 
 //var GH_RESOURCE_ROOT = '../RSC/';
@@ -268,10 +268,11 @@ function __ghCreateTimePositionArray() {
     var distance = 0;
     var sec = 0;
  
-    var lng0 = 1.0 * UNITGEOM[ UNITTIME[0].geoindex ].lng.toFixed(9) ;
-    var lat0 = 1.0 * UNITGEOM[ UNITTIME[0].geoindex ].lat.toFixed(9) ;
-    var alt0 = 1.0 * UNITGEOM[ UNITTIME[0].geoindex ].alt.toFixed(3) ;
-    var p0 = new Cesium.Cartesian3.fromDegrees(lng0,lat0,alt0);
+    let fgeoidx = UNITTIME[0].geoindex;
+    var lng0 = 1.0 * UNITGEOM[ fgeoidx ].lng.toFixed(9) ;
+    var lat0 = 1.0 * UNITGEOM[ fgeoidx ].lat.toFixed(9) ;
+    var alt0 = 1.0 * UNITGEOM[ fgeoidx ].alt.toFixed(3) ;
+    //var p0 = new Cesium.Cartesian3.fromDegrees(lng0,lat0,alt0);
     CZML_POSITION.push(totalsec);
     CZML_POSITION.push(lng0);
     CZML_POSITION.push(lat0);
@@ -279,20 +280,20 @@ function __ghCreateTimePositionArray() {
     
     var ilen = UNITTIME.length;
     for ( var i=1; i < ilen; i++ ) {
-	//distance = 0;
-	//sec = 0;
-	if ( UNITTIME[i].geoindex == UNITTIME[i].prevgeoindex ) {
+	    //distance = 0;
+	    //sec = 0;
+    	if ( UNITTIME[i].geoindex == UNITTIME[i].prevgeoindex ) {
             // Dont Move
             var j = UNITTIME[i].prevgeoindex;
-	    var lng1 = 1.0 * UNITGEOM[ j ].lng.toFixed(9) ; // XX.XXXXXXXXX
-	    var lat1 = 1.0 * UNITGEOM[ j ].lat.toFixed(9) ; // XX.XXXXXXXXX
-	    var alt1 = 1.0 * UNITGEOM[ j ].alt.toFixed(3) ; // XX.XXX
-	    var p1 = new Cesium.Cartesian3.fromDegrees(lng1,lat1,alt1);
-	    sec = UNITTIME[i].timeinterval;
-	    CZML_POSITION.push( totalsec + sec );
-	    CZML_POSITION.push(lng1);
-	    CZML_POSITION.push(lat1);
-	    CZML_POSITION.push(alt1);
+	        var lng1 = 1.0 * UNITGEOM[ j ].lng.toFixed(9) ; // XX.XXXXXXXXX
+    	    var lat1 = 1.0 * UNITGEOM[ j ].lat.toFixed(9) ; // XX.XXXXXXXXX
+    	    var alt1 = 1.0 * UNITGEOM[ j ].alt.toFixed(3) ; // XX.XXX
+	        //var p1 = new Cesium.Cartesian3.fromDegrees(lng1,lat1,alt1);
+	        sec = UNITTIME[i].timeinterval;
+	        CZML_POSITION.push( totalsec + sec );
+	        CZML_POSITION.push(lng1);
+	        CZML_POSITION.push(lat1);
+    	    CZML_POSITION.push(alt1);
             
         } else {
     
@@ -316,21 +317,53 @@ function __ghCreateTimePositionArray() {
             }
                 
         }
-	totalsec += sec;
+	    totalsec += sec;
 
     }
     
-    // Last Stop exist 1 minutes at same position
-    var lng0 = 1.0 * UNITGEOM[ UNITTIME[ilen-1].geoindex ].lng.toFixed(9) ;
-    var lat0 = 1.0 * UNITGEOM[ UNITTIME[ilen-1].geoindex ].lat.toFixed(9) ;
-    var alt0 = 1.0 * UNITGEOM[ UNITTIME[ilen-1].geoindex ].alt.toFixed(3) ;
-    CZML_POSITION.push(totalsec+ STOP_TIME );
-    CZML_POSITION.push(lng0);
-    CZML_POSITION.push(lat0);
-    CZML_POSITION.push(alt0);    
+    // Last Stop exist 1 minutes at 1[m] position
+    fgeoidx = UNITTIME[ilen-1].geoindex;
+    var lastlatlng = __ghCalcStopPoint(fgeoidx,1.0);
+    CZML_POSITION.push(totalsec + STOP_TIME );
+    CZML_POSITION.push(lastlatlng.lng);
+    CZML_POSITION.push(lastlatlng.lat);
+    CZML_POSITION.push(lastlatlng.alt);    
+
+    //var lng0 = 1.0 * UNITGEOM[ fgeoidx ].lng.toFixed(9) ;
+    //var lat0 = 1.0 * UNITGEOM[ fgeoidx ].lat.toFixed(9) ;
+    //var alt0 = 1.0 * UNITGEOM[ fgeoidx ].alt.toFixed(3) ;
+    //CZML_POSITION.push(totalsec+ STOP_TIME );
+    //CZML_POSITION.push(lng0);
+    //CZML_POSITION.push(lat0);
+    //CZML_POSITION.push(alt0);    
     
     //console.log(CZML_POSITION);
-    
+}
+
+function __ghCalcStopPoint(idx,meter) {
+
+    var lng0 = 1.0 * UNITGEOM[ idx - 1 ].lng;
+    var lat0 = 1.0 * UNITGEOM[ idx - 1 ].lat;
+    var alt0 = 1.0 * UNITGEOM[ idx - 1 ].alt;
+    var p0 = new Cesium.Cartesian3.fromDegrees(lng0,lat0);
+
+    var lng1 = 1.0 * UNITGEOM[ idx ].lng;
+    var lat1 = 1.0 * UNITGEOM[ idx ].lat;
+    var alt1 = 1.0 * UNITGEOM[ idx ].alt;
+    var p1 = new Cesium.Cartesian3.fromDegrees(lng1,lat1);
+
+	let dis = Cesium.Cartesian3.distance(p0,p1);
+    let ratio = ( dis + meter ) / dis; // meter[m] far from STOP geometry
+
+    var nextp = new Cesium.Cartesian3();
+    Cesium.Cartesian3.lerp(p0, p1, ratio, nextp) ;                   
+    var cpos = new Cesium.Cartographic.fromCartesian( nextp );
+    var ret = {
+            "lng" : Cesium.Math.toDegrees(cpos.longitude),
+            "lat" : Cesium.Math.toDegrees(cpos.latitude),
+            "alt" : alt1
+        }
+    return ret;
 }
 
 function __ghCreateAvailabilityString() {
@@ -507,17 +540,17 @@ function __ghCreateCesiumClock(str,timezone) {
     var d = new Date();
 
     if ( td > 0 ) {
-	d.setDate(d.getDate() + td );
+	    d.setDate(d.getDate() + td );
     }
     
     var year = d.getFullYear();
     var month = d.getMonth() + 1;
     if ( month < 10 ) {
-	month = "0" + month;
+	    month = "0" + month;
     }
     var ddd = d.getDate();
     if ( ddd < 10 ) {
-	ddd = "0" + ddd;
+	    ddd = "0" + ddd;
     }
     
     var datetime = year + "-" + month + "-" + ddd + "T" + t[1] + ".000" + timezone;
@@ -586,50 +619,50 @@ function __ghCalculateTunnelAltitude(idx) {
     var firstid = idx;
     var lastid = idx;
     for (var i = idx+1; i < UNITGEOMPROP.length; i++) {
-	var prop = UNITGEOMPROP[i];
-	if ( prop != null && prop.tunnel ) {
-	    lastid = i;
-	} else {
-	    break;
-	}
+    	var prop = UNITGEOMPROP[i];
+    	if ( prop != null && prop.tunnel ) {
+	        lastid = i;
+	    } else {
+    	    break;
+    	}
     }
 
     for (var i = idx; i > -1; i--) {
-	var prop = UNITGEOMPROP[i];
-	if ( prop != null && prop.tunnel ) {
-	    firstid = i;
-	} else {
-	    break;
-	}
+    	var prop = UNITGEOMPROP[i];
+    	if ( prop != null && prop.tunnel ) {
+	        firstid = i;
+	    } else {
+    	    break;
+    	}
     }
     if ( firstid > lastid ) return null;
     
     var distance = __ghCalcGeometryDistance(firstid,lastid);
     if ( distance < GH_TUNNEL_PROP.minlength ) {
-	// Too short tunnell 
-	return null;
+    	// Too short tunnell 
+    	return null;
     } else {
-	var distance_prev = __ghCalcGeometryDistance(firstid,idx);
-	var distance_post = __ghCalcGeometryDistance(idx,lastid);
+    	var distance_prev = __ghCalcGeometryDistance(firstid,idx);
+    	var distance_post = __ghCalcGeometryDistance(idx,lastid);
 	
-	var alt_diff = UNITGEOM[lastid].alt - UNITGEOM[firstid].alt;
-	var alt_ratio = distance_prev / distance ;
-	var calc_alt = UNITGEOM[firstid].alt + alt_diff * alt_ratio ;
-	if ( alt_ratio < 0.1 ) {
-	    calc_alt = UNITGEOM[firstid].alt - 1;
-	} else if ( alt_ratio > 0.9 ) {	       
-	    calc_alt = UNITGEOM[lastid].alt - 1;
-	} else if ( alt_ratio > 0.4 && alt_ratio < 0.6 ) {
-	    calc_alt = calc_alt + GH_TUNNEL_PROP.depth;
-	} else {
-	    calc_alt = calc_alt + (GH_TUNNEL_PROP.depth/2.0);
-	}
+    	var alt_diff = UNITGEOM[lastid].alt - UNITGEOM[firstid].alt;
+    	var alt_ratio = distance_prev / distance ;
+    	var calc_alt = UNITGEOM[firstid].alt + alt_diff * alt_ratio ;
+    	if ( alt_ratio < 0.1 ) {
+	        calc_alt = UNITGEOM[firstid].alt - 1;
+	    } else if ( alt_ratio > 0.9 ) {	       
+    	    calc_alt = UNITGEOM[lastid].alt - 1;
+    	} else if ( alt_ratio > 0.4 && alt_ratio < 0.6 ) {
+	        calc_alt = calc_alt + GH_TUNNEL_PROP.depth;
+	    } else {
+    	    calc_alt = calc_alt + (GH_TUNNEL_PROP.depth/2.0);
+    	}
 	
-	if ( calc_alt > UNITGEOM[idx].alt ) {
+    	if ( calc_alt > UNITGEOM[idx].alt ) {
             return parseFloat( UNITGEOM[idx].alt + GH_TUNNEL_PROP.depth );
-	} else {
+	    } else {
             return calc_alt;
-       }
+        }
     }
 }
 
@@ -638,82 +671,82 @@ function __ghGetGeometryProperty(str) {
     if ( obj[0] != "#P" ) return null;
 
     var prop = {
-	"bridge" : false,
-	"tunnel" : false,
-	"gauge" : -1,
-	"maxspeed" : -1,
-	"highspeed" : false,
-	"layer" : null,
-	"embankment" : false
+    	"bridge" : false,
+    	"tunnel" : false,
+    	"gauge" : -1,
+    	"maxspeed" : -1,
+    	"highspeed" : false,
+    	"layer" : null,
+    	"embankment" : false
     }
     var param = obj[1].split(":");
     for ( var i=0,ilen=param.length; i < ilen; i++ ) {
-	if ( param[i].indexOf("bg") > -1 ) {
-	    prop.bridge = true;
-	}
-	if ( param[i].indexOf("tn") > -1 ) {
-	    prop.tunnel = true;
-	}
-	if ( param[i].indexOf("gu") > -1 ) {
-	    var dat = param[i].split("=");
-	    prop.gauge = parseInt(dat[1],10);
-	}
-	if ( param[i].indexOf("ms") > -1 ) {
-	    var dat = param[i].split("=");
-	    prop.maxspeed = parseInt(dat[1],10);
-	}
-	if ( param[i].indexOf("hs") > -1 ) {
-	    prop.highspeed = true;
-	}
-	if ( param[i].indexOf("ly") > -1 ) {
-	    var dat = param[i].split("=");
-	    prop.layer = parseInt(dat[1],10);
-	}
-	if ( param[i].indexOf("em") > -1 ) {
-	    prop.embankment = true;
-	}
+    	if ( param[i].indexOf("bg") > -1 ) {
+	        prop.bridge = true;
+	    }
+	    if ( param[i].indexOf("tn") > -1 ) {
+    	    prop.tunnel = true;
+    	}
+    	if ( param[i].indexOf("gu") > -1 ) {
+	        var dat = param[i].split("=");
+	        prop.gauge = parseInt(dat[1],10);
+	    }
+	    if ( param[i].indexOf("ms") > -1 ) {
+    	    var dat = param[i].split("=");
+	        prop.maxspeed = parseInt(dat[1],10);
+	    }
+	    if ( param[i].indexOf("hs") > -1 ) {
+    	    prop.highspeed = true;
+    	}
+    	if ( param[i].indexOf("ly") > -1 ) {
+	        var dat = param[i].split("=");
+	        prop.layer = parseInt(dat[1],10);
+	    }
+	    if ( param[i].indexOf("em") > -1 ) {
+    	    prop.embankment = true;
+    	}
     }
     return prop;
 }
 function __ghCalculateUnitAltitude() {
     for ( var i=0,ilen=UNITGEOM.length-1; i < ilen; i++ ) {
-	var prop = UNITGEOMPROP[i];
-	if ( prop != null && prop.tunnel ) {
-	    // tunnel prop
-	    var alt = __ghCalculateTunnelAltitude(i);
-	    if ( alt == null ) {
-		// NOP
-	    } else {
-		//  Change altitude data
-		UNITGEOM[i].alt = alt;
-	    }
-	} 
+	    var prop = UNITGEOMPROP[i];
+	    if ( prop != null && prop.tunnel ) {
+    	    // tunnel prop
+	        var alt = __ghCalculateTunnelAltitude(i);
+	        if ( alt == null ) {
+        		// NOP
+	        } else {
+    		    //  Change altitude data
+		        UNITGEOM[i].alt = alt;
+	        }
+	    } 
     }
 }
+
 function __ghCreateUnitGeometryArray( data ) {
 
     UNITGEOM = [];
     UNITGEOMPROP = [];
     var str = null;
     for ( var i=0,ilen=data.length; i < ilen; i++ ) {
-	if ( data[i].indexOf('#') < 0 && data[i] != "" ) {
-	    str = data[i].split(",");
-	    var obj = {
-		"lat" : parseFloat(str[0]),
-		"lng" : parseFloat(str[1]),
-		"alt" : parseFloat(str[2]),
-		"sta" : str[3],
+	    if ( data[i].indexOf('#') < 0 && data[i] != "" ) {
+    	    str = data[i].split(",");
+	        var obj = {
+    		    "lat" : parseFloat(str[0]),
+		        "lng" : parseFloat(str[1]),
+    		    "alt" : parseFloat(str[2]),
+    		    "sta" : str[3],
                 "typ" : str[4]
-	    }
-	    UNITGEOM.push ( obj ) ;
-	} else if ( data[i].indexOf('#P') >= 0 ) {
-	    // #P,prop
-	    var prop = __ghGetGeometryProperty(data[i]);
-	    UNITGEOMPROP.push ( prop ) ;
-	} else {
-	    
-	    // NOP
-	}
+	        }
+	        UNITGEOM.push ( obj ) ;
+	    } else if ( data[i].indexOf('#P') >= 0 ) {
+    	    // #P,prop
+	        var prop = __ghGetGeometryProperty(data[i]);
+	        UNITGEOMPROP.push ( prop ) ;
+	    } else {
+    	    // NOP
+    	}
     }
     
     // Adjust Station Point for train length
@@ -726,7 +759,9 @@ function __ghCreateUnitGeometryArray( data ) {
                 var ratio = GH_DISTANCEFROMCENTER / dis;
                 var p0 = new Cesium.Cartesian3.fromDegrees(o.lng,o.lat,o.alt);
                 var p1 = new Cesium.Cartesian3.fromDegrees(
-                        UNITGEOM[i+1].lng,UNITGEOM[i+1].lat,UNITGEOM[i+1].alt
+                        UNITGEOM[i+1].lng,
+                        UNITGEOM[i+1].lat,
+                        UNITGEOM[i+1].alt
                         );
                 var result = new Cesium.Cartesian3();
                 Cesium.Cartesian3.lerp(p0, p1, ratio, result)                    
@@ -761,36 +796,36 @@ function __ghLoadUnitGeometries(id,routearray, lineid, routename, way) {
     var geo = new XMLHttpRequest();
     var ret = [];
     for ( var i = 0,ilen=routearray.length; i<ilen; i++ ) {
-	var uri = ghGetResourceUri(
-	    GH_FIELD.linejson[ lineid ].baseuri
-		+ GH_FIELD.linejson[ lineid ].way[way].geometry[ routearray[i] ]);
-	geo.open('GET', uri , false);
+	    var uri = ghGetResourceUri(
+    	    GH_FIELD.linejson[ lineid ].baseuri
+		    + GH_FIELD.linejson[ lineid ].way[way].geometry[ routearray[i] ]);
+        geo.open('GET', uri , false);
 
-	geo.send();
-	if (geo.status == 200) {
+	    geo.send();
+	    if (geo.status == 200) {
             if (geo.response) {
-		var r = geo.responseText;
-		var a = r.split(/\n/);
-		var startline = 1;
+		        var r = geo.responseText;
+		        var a = r.split(/\n/);
+		        var startline = 1;
 
-		//  concat array 
-		for ( var j = startline,jlen=a.length; j<jlen; j++ ) {
-		    if ( a[j] != "" ) {
-			ret.push ( a[j] );
-		    }
-		}
+		        //  concat array 
+		        for ( var j = startline,jlen=a.length; j<jlen; j++ ) {
+        		    if ( a[j] != "" ) {
+			        ret.push ( a[j] );
+		            }
+		        }
+	        }
+	    } else {
+    	    var msg = "Unit geometry data load error " + geo.status;
+	        console.log( msg );
 	    }
-	} else {
-	    var msg = "Unit geometry data load error " + geo.status;
-	    console.log( msg );
-	}
     }
 
     if ( ret.length > 1 ) {
-	__ghCreateUnitGeometryArray( ret );
-	if ( GH_USE_TUNNEL ) __ghCalculateUnitAltitude();
-	__ghCreateUnitTimetable(id);
-	__ghCreateUnitCzml(id);
+    	__ghCreateUnitGeometryArray( ret );
+    	if ( GH_USE_TUNNEL ) __ghCalculateUnitAltitude();
+    	__ghCreateUnitTimetable(id);
+	    __ghCreateUnitCzml(id);
     }
     
 }
@@ -800,24 +835,24 @@ function __ghLoadFieldData(uri) {
     //xhr.open('GET', uri , true); async , false = sync;
     xhr.open('GET', uri , true);
     xhr.onreadystatechange = function() {
-	// readyState XMLHttpRequest の状態 4: リクエストが終了して準備が完了
-	// status httpステータス
-	if (xhr.readyState == 4 && xhr.status == 200) {
+	    // readyState XMLHttpRequest の状態 4: リクエストが終了して準備が完了
+    	// status httpステータス
+    	if (xhr.readyState == 4 && xhr.status == 200) {
             if (xhr.response) {
-		GH_FIELD = JSON.parse(xhr.responseText);
+		        GH_FIELD = JSON.parse(xhr.responseText);
                 var lines = GH_FIELD.lines;
                 GH_FIELD.linejson = {};
                 for(var key in GH_FIELD.lines){
                     __ghLoadLineData(GH_FIELD.lines[key]);
                 }
-
             }
-	} else {
-	    // NOP
-	}
+    	} else {
+	        // NOP
+    	}
     }
     xhr.send();
 }
+
 function __ghCheckGeomid(geomid,lineid,lineway,route) {
 
     if ( ( typeof GH_FIELD.linejson[ lineid ].way ) == 'undefined' ) {
@@ -845,7 +880,7 @@ function __ghLoadUnitData() {
         var lineway = parseInt(units[i].way,10); // 0 or 1
         var flag = __ghCheckGeomid(geomid,lineid,lineway,route);
         if ( flag ) {
-	    __ghLoadUnitGeometries( i , geomid, lineid, route , lineway );
+	        __ghLoadUnitGeometries( i , geomid, lineid, route , lineway );
         } else {
             var msg = "Wrong Geometry file " + lineid + " " + geomid + " " + lineway;
             console.log(msg);
@@ -866,7 +901,7 @@ function __ghWaitFieldLineLoaded(func) {
         linecnt++;
     }
     if ( linecnt == matchcnt ) {
-	func();
+    	func();
     }
 };
         
@@ -875,21 +910,19 @@ function __ghLoadLineData(file) {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', uri , true);
     xhr.onreadystatechange = function() {
-	// readyState XMLHttpRequest の状態 4: リクエストが終了して準備が完了
-	// status httpステータス
-	if (xhr.readyState == 4 && xhr.status == 200) {
+    	// readyState XMLHttpRequest の状態 4: リクエストが終了して準備が完了
+    	// status httpステータス
+    	if (xhr.readyState == 4 && xhr.status == 200) {
             if (xhr.response) {
                 var json = JSON.parse(xhr.responseText);
-		GH_FIELD.linejson[json.id] = json;
-                
+        		GH_FIELD.linejson[json.id] = json;
                 __ghWaitFieldLineLoaded( __ghLoadUnitData );
-
             }
         } else {
-	    // NOP
-	    //var msg = "Line data state " + xhr.status + " " + xhr.readyState + " " + file ;
-	    //console.log( msg );
-	}
+	        // NOP
+	        //var msg = "Line data state " + xhr.status + " " + xhr.readyState + " " + file ;
+    	    //console.log( msg );
+    	}
     }
     xhr.send();
 }
@@ -905,10 +938,10 @@ self.addEventListener('message', function(e) {
     } else if ( command == 'objarray') {
 
     } else if ( command == 'urilist') {
-	//console.log(data.value);
-	GH_URILIST = data.value;
+	    //console.log(data.value);
+	    GH_URILIST = data.value;
     } else if ( command == 'fieldjson') {
-	GH_FIELD = data.value;
+	    GH_FIELD = data.value;
         var lines = GH_FIELD.lines;
         GH_FIELD.linejson = [];
         
@@ -917,12 +950,12 @@ self.addEventListener('message', function(e) {
         }
     } else if ( command == 'fielduri') {
         //console.log(data.value);
-	__ghLoadFieldData(data.value);
+	    __ghLoadFieldData(data.value);
 	
     } else if ( command == "remove") {
 
     } else if ( command == "reset") {
-	TILE_HASH = {};
+	    TILE_HASH = {};
     } else {
         // NOP
     }
