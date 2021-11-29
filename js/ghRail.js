@@ -3172,8 +3172,7 @@ function ghRemoveCesiumGroundPolyline() {
 }
 
 
-function ghCreateCesiumGroundPolyline(data) {
-    
+function ghCreateCesiumNormalPolyline(data) {
     var points = [];
     for (var i = 0; i < data.positions.length; i=i+2) {
         points.push([ data.positions[i], data.positions[i+1] ]);
@@ -3183,7 +3182,56 @@ function ghCreateCesiumGroundPolyline(data) {
     LS_P[0] = turf.lineOffset.default(LS, 1.0, {units:'meters'});
     LS_P[1] = turf.lineOffset.default(LS, -1.0, {units:'meters'});
 
-    // 650AVE is wrong line string appeared
+    var wrongdistance = 1.0; // Kilo meter
+    
+    for ( var k=1,klen=LS.geometry.coordinates.length;k<klen;k++){
+        var org_p = turf.helpers.point(LS.geometry.coordinates[k]);
+        var aside_p = turf.helpers.point(LS_P[0].geometry.coordinates[k]);
+        var bside_p = turf.helpers.point(LS_P[1].geometry.coordinates[k]);
+
+        var aside_dis = turf.distance.default(org_p,aside_p,{units: 'kilometers'});
+        var bside_dis = turf.distance.default(org_p,bside_p,{units: 'kilometers'});
+        
+        if ( aside_dis > wrongdistance ) {
+            var t = "lineoffset id " + k + " org=" + LS.geometry.coordinates[k] + " a=" + LS_P[0].geometry.coordinates[k] + " dis=" + aside_dis;
+            console.log(t);
+            LS_P[0].geometry.coordinates[k] = LS_P[0].geometry.coordinates[k-1];
+        }
+        if ( bside_dis > wrongdistance ) {
+            var t = "lineoffset id " + k + " org=" + LS.geometry.coordinates[k] + " b=" + LS_P[1].geometry.coordinates[k] + " dis=" + bside_dis;
+            console.log(t);
+            LS_P[1].geometry.coordinates[k] = LS_P[1].geometry.coordinates[k-1];
+        }
+    }    
+		
+    // Create polyline Both Side
+    var instance = [];
+    var vpoly = [];
+    for ( var i=0;i<2;i++){
+	var ttt = data.route + "_side_" + i;
+	GH_V.entities.add({
+	    name: ttt,
+	    polyline: {
+		positions: Cesium.Cartesian3.fromDegreesArray(LS_P[i].geometry.coordinates.flat()),
+		width: 5,
+		material: Cesium.Color.RED,
+		clampToGround: true,
+	    },
+	});
+    }
+
+}
+   
+function ghCreateCesiumGroundPolyline(data) {
+    var points = [];
+    for (var i = 0; i < data.positions.length; i=i+2) {
+        points.push([ data.positions[i], data.positions[i+1] ]);
+    }
+    var LS = turf.helpers.lineString(points,{name:'rail_line'}); //console.log(LINE_STRING);
+    var LS_P = [];
+    LS_P[0] = turf.lineOffset.default(LS, 1.0, {units:'meters'});
+    LS_P[1] = turf.lineOffset.default(LS, -1.0, {units:'meters'});
+
     var wrongdistance = 1.0; // Kilo meter
     
     for ( var k=1,klen=LS.geometry.coordinates.length;k<klen;k++){
@@ -3213,12 +3261,12 @@ function ghCreateCesiumGroundPolyline(data) {
 	instance[i] = new Cesium.GeometryInstance({
             geometry : new Cesium.GroundPolylineGeometry({
 		positions : Cesium.Cartesian3.fromDegreesArray(LS_P[i].geometry.coordinates.flat()),
-		width : 2.0,
+		width : 3.0,
             }),
             attributes : {
 		color : Cesium.ColorGeometryInstanceAttribute.fromColor(new Cesium.Color(0.2, 0.2, 0.2, 1.0))
             },
-            id : data.geomid + " side " + i
+            id : data.route + "_side_" + i
 	});
 	vpoly[i] = new Cesium.GroundPolylinePrimitive({
             geometryInstances : instance[i],
@@ -3644,7 +3692,7 @@ function ghGetLineLonLat(id) {
             }).done(function(data) {
                 ghCreateCesiumGroundPolyline(data);
             }).fail(function(XMLHttpRequest, textStatus,errorThrown){
-                var msg = "Line Lot Lng Cannot load " + uri + "  ";
+                var msg = "Line Lon Lat Cannot load " + uri + "  ";
                 msg += " XMLHttpRequest " + XMLHttpRequest.status ;
                 msg += " textStatus " + textStatus ;
                 console.log( msg );

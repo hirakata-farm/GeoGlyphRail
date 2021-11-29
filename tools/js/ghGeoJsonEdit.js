@@ -64,11 +64,11 @@ var options = {
     drawPolyline: true,  // adds button to draw a polyline
     drawCircle: false,
     drawRectangle: false,    
-    editMode : false,
+    editMode : true,
     dragMode : false,
     cutLayer : false,
     cutPolygon : false,
-    editPolygon: false,  // adds button to toggle global edit mode
+    editPolygon: true,  // adds button to toggle global edit mode
     deleteLayer: true   // adds a button to delete layers
 };
 

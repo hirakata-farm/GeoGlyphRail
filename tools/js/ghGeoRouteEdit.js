@@ -541,7 +541,7 @@ function ghFileSelectGeoJSON( data ) {
     var reader = new FileReader();
     LoadData.file = escape(files[0].name);
     LoadData.geojson = null;
-    
+
     reader.readAsText(files[0]);
     reader.onload = function(e) {
 
@@ -559,7 +559,7 @@ function ghFileSelectGeoJSON( data ) {
             LoadData.maplayer = [];
             GuideLayers = [];
         }
-             
+
         LoadData.geojson = JSON.parse(e.target.result);
         $(LoadData.geojson.features).each(function(key, data) {
 
@@ -590,19 +590,27 @@ function ghFileSelectGeoJSON( data ) {
                 return txt;
             });
 	    MapL.addLayer(district);
-            
             district.eachLayer(function(layer) {
                 var li = layer.getLatLngs();
                 for (var j = 0; j < li.length; j++) {
-                    var CircleMarker = L.circleMarker(li[j], {
-                        color: '#FFFFFF',
-                        weight: 1,
-                        opacity: 0.9,
-                        fillColor: '#FFFFFF',
-                        fillOpacity: 0.3,
-                        radius: 1
-                    }).addTo(MapL);
-                    GuideLayers.push(CircleMarker);
+		    if (typeof li[j].length === "undefined") {
+			// Only one lat-lng data
+			var CircleMarker = L.circleMarker(li[j], {
+                            color: '#FFFFFF',
+                            weight: 1,
+                            opacity: 0.9,
+                            fillColor: '#FFFFFF',
+                            fillOpacity: 0.3,
+                            radius: 1
+			});
+			console.log(li[j]);
+			CircleMarker.addTo(MapL);
+			GuideLayers.push(CircleMarker);
+		    } else {
+			// Multiple(array) lat-lng data
+			//  for FIX future work
+			console.log(li[j].length);
+		    }
                 }
             });            
 
@@ -746,10 +754,15 @@ function ghGetNearestPoint(marker){
         if (layer instanceof L.Polyline) {
             var li = layer.getLatLngs();
 	    for (var j = 0; j < li.length; j++) {
-		var distance = pos.distanceTo(li[j]);
-		if ( distance < mind ) {
-		    mind = distance;
-		    minlatlng = li[j];
+		if (typeof li[j].length === "undefined") {
+		    var distance = pos.distanceTo(li[j]);
+		    if ( distance < mind ) {
+			mind = distance;
+			minlatlng = li[j];
+		    }
+		} else {
+		    // Multiple(array) lat-lng data
+		    //  for FIX future work
 		}
 	    }
         };
