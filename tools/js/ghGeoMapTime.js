@@ -464,6 +464,50 @@ function ghCheckTimeFormat(data) {
     if( isNaN(data) ) return false;
 
     var len = data.length;
+    if ( len > 6 ) return false;
+
+    var str = "";
+    if ( len == 1 ) {
+	// M -> 000M
+	str = "000" + data;
+    } else if ( len == 2 ) {
+	// MM -> 00MM
+	str = "00" + data;
+    } else if ( len == 3 ) {
+	// HMM -> 0HMM
+	str = "0" + data;
+    } else if ( len == 4 ) {
+	// HHMM -> HHMM
+	str = "" + data;
+    } else if ( len == 5 ) {
+	// HHMMS -> HHMM0S
+	//var a = data.substr(0,4);
+	//var b = data.substr(4,1);	
+	//str = "" + a + "0" + b;
+
+	// HMMSS -> HHMMSS
+	str = "0" + data;
+    } else {
+	// HHMMSS -> HHMMSS
+	str = "" + data;
+    }
+
+    var h = parseInt(str.substr(0,2),10);
+    var m = parseInt(str.substr(2,2),10);
+    var s = parseInt(str.substr(4,2),10);
+
+    if ( h < 0 || h > 23 ) return false;
+    if ( m < 0 || m > 59 ) return false;
+    if ( s < 0 || s > 59 ) return false;
+
+    return true;
+    
+};
+function ghCheckTimeFormat4DIGIT(data) {
+
+    if( isNaN(data) ) return false;
+
+    var len = data.length;
     if ( len > 4 ) return false;
 
     var str = "";
@@ -492,6 +536,54 @@ function ghCheckTimeFormat(data) {
 };
 
 function ghAddTimeStr(str,min) {
+
+    var len = str.length;
+    var ret = "";
+    var sec = "";
+    if ( len == 1 ) {
+	// M -> 000M
+	ret = "000" + str;
+    } else if ( len == 2 ) {
+	// MM -> 00MM
+	ret = "00" + str;
+    } else if ( len == 3 ) {
+	// HMM -> 0HMM
+	ret = "0" + str;
+    } else if ( len == 4 ) {
+	// HHMM -> HHMM
+	ret = str.substr(0,4);
+    } else if ( len == 5 ) {
+	// HMMSS -> 0HMM
+	ret = "0" + str.substr(0,3);
+	sec = str.substr(3,2);
+    } else {
+	// HHMMSS -> HHMM
+	ret = str.substr(0,4);
+	sec = str.substr(4,2);
+    }
+
+    var h = parseInt(ret.substr(0,2),10);
+    var m = parseInt(ret.substr(2,2),10);
+
+    var tm = 60 * h + m + min;
+
+    h = Math.floor(tm/60);
+    m = parseInt(tm % 60,10);
+
+    if ( h < 10 ) {
+	h = "0" + h;
+    }
+    if ( m < 10 ) {
+	m = "0" + m;
+    }
+    if ( sec == "" ) {
+	return "" + h + m;
+    } else {
+	return "" + h + m + sec;
+    }
+
+}
+function ghAddTimeStr4DIGIT(str,min) {
 
     var len = str.length;
     var ret = "";
@@ -669,6 +761,7 @@ function _ghOnchangeValue(instance, cell, x, y, value) {
 
     if ( ! ghCheckTimeFormat(value) ) {
 	if ( value != GH_BUFFER.value ) GH_TABLE[GH_CURRENT_TABLE_KEY].sheet.setValueFromCoords(x,y,GH_BUFFER.value);
+	//console.log(value);
 	M.toast({html: GH_MSG_WRONG_TIME})
 	return;
     }
@@ -827,6 +920,43 @@ function ghCalcPointTime(timestr) {
     return (r0 + r1 + r2 + r3);
 }
 function ghCreateISOTimeFormat(d,str) {
+    if( isNaN(str) ) return "0T00:00:00";
+    
+    var day = parseInt(d,10);
+    if( isNaN(day) ) day = 0;
+    
+    var len = str.length;
+    day = "" + day + "T";
+    
+    if ( len < 1 || len > 6 ) {
+        return day + "00:00:00";
+    }
+    var ret = "";
+    if ( len == 1 ) {
+	// M -> 000M
+	ret = day + "00:0" + str + ":00";
+    } else if ( len == 2 ) {
+	// MM -> 00MM
+	ret = day + "00:" + str + ":00";
+    } else if ( len == 3 ) {
+	// HMM -> 0HMM
+        ret = day + "0" + str.substr(0,1) + ":" + str.substr(1,2) + ":00";        
+    } else if ( len == 4 ) {
+	// HHMM
+        ret = day + "" + str.substr(0,2) + ":" + str.substr(2,2) + ":00";
+    } else if ( len == 5 ) {
+	// HHMMS -> HHMM0S
+        //ret = day + "" + str.substr(0,2) + ":" + str.substr(2,2) + ":0" + str.substr(4,1) ;
+
+	// HMMSS -> 0HHMMSS
+	ret = day + "0" + str.substr(0,1) + ":" + str.substr(1,2) + ":" + str.substr(3,2) ;
+    } else {
+	// HHMMSS
+        ret = day + "" + str.substr(0,2) + ":" + str.substr(2,2) + ":" + str.substr(4,2) ;
+    }
+    return ret;
+}
+function ghCreateISOTimeFormat4DIGIT(d,str) {
     if( isNaN(str) ) return "0T00:00:00";
     
     var day = parseInt(d,10);

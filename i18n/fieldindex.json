@@ -130,6 +130,12 @@
             "polyline": ["lines/955ZILLERTAL/955Z_0S.polyline"],
             "uncode": ["UN040"]
         },
+        "957PINZGAUER": {
+            "name": "__957PINZGAUER__",
+            "file": "fields/957PINZGAUER.field",
+            "polyline": ["lines/957PINZGAUER/957P_0W.polyline"],
+            "uncode": ["UN040"]
+        },
         "994MARIAZELL": {
             "name": "__994MARIAZELL__",
             "file": "fields/994MARIAZELL.field",
@@ -338,7 +344,7 @@
     "uncodelist": {
 	"UN012": ["2543SNTF"],
 	"UN036": ["9017XPT"],
-        "UN040": ["950RJ","955ZILLERTAL","994MARIAZELL"],
+        "UN040": ["950RJ","955ZILLERTAL","957PINZGAUER","994MARIAZELL"],
         "UN056": ["10ES12ES", "18T20THALYS"],
 	"UN100": ["1500BDZ"],
 	"UN124": ["21VIA"],
