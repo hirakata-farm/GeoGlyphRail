@@ -28,6 +28,12 @@
 	     "polyline" : ["lines/230ENTERPRISE/230_5N.polyline"],
 	     "uncode" : [ "UN372", "UN826" ]
 	    },
+        "240IE": {
+            "name": "__240IE__",
+            "file": "fields/240IE.field",
+            "polyline": ["lines/240IE/240IE_2WM.polyline", "lines/240IE/240IE_2NB.polyline"],
+            "uncode": ["UN372"]
+        },
         "341LYRIA": {
             "name": "__341LYRIA__",
             "file": "fields/341LYRIA.field",
@@ -40,6 +46,18 @@
 	     "polyline" : ["lines/390TGV/390_4E.polyline"],
 	     "uncode" : [ "UN250", "UN442" ]
 	    },
+        "546RHB": {
+            "name": "__546RHB__",
+            "file": "fields/546RHB.field",
+            "polyline": ["lines/546RHB/546_1E.polyline"],
+            "uncode": ["UN756"]
+        },      
+        "566GOLDENPASS": {
+            "name": "__566GOLDENPASS__",
+            "file": "fields/566GOLDENPASS.field",
+            "polyline": ["lines/566GOLDENPASS/566_0E.polyline","lines/566GOLDENPASS/566_0S.polyline"],
+            "uncode": ["UN756"]
+        },      
         "581TND": {
             "name": "__581TND__",
             "file": "fields/581TND.field",
@@ -64,12 +82,6 @@
             "polyline": ["lines/670CF/670_0N.polyline"],
             "uncode": ["UN724"]
         },      
-        "240IE": {
-            "name": "__240IE__",
-            "file": "fields/240IE.field",
-            "polyline": ["lines/240IE/240IE_2WM.polyline", "lines/240IE/240IE_2NB.polyline"],
-            "uncode": ["UN372"]
-        },
         "600FR": {
             "name": "__600FR__",
             "file": "fields/600FR.field",
@@ -383,7 +395,7 @@
         "UN705": ["1302BOHINJ","1315ICS"],
         "UN724": ["650AVE","670CF"],
         "UN752": ["740SJ"],
-        "UN756": ["341LYRIA","610LOTSCH"],
+        "UN756": ["341LYRIA","610LOTSCH","546RHB","566GOLDENPASS"],
         "UN792": ["3900YHT"],
         "UN826": ["10ES12ES","173NT","230ENTERPRISE"],
 	"UN840": ["320ACELA"],

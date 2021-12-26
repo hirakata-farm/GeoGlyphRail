@@ -359,7 +359,7 @@ function ghInitMaps() {
     });
 
 
-    PointDialog = L.control.dialog({size:[300,240]})
+    PointDialog = L.control.dialog({size:[300,280]})
     .setContent("<p>Hello! Welcome to your nice new dialog box!</p>")
     .addTo(MapL);
     PointDialog.close();
@@ -501,7 +501,7 @@ function ghShowPointMarkerDialog(ev) {
     txt += "<button id=\"gh_pointname_button99\">Close</button>&nbsp;&nbsp;";
     txt += "<button id=\"gh_pointname_button100\">OK</button>";
     
-    txt += "<BR><label><input type=\"checkbox\" class=\"filled-in\" id=\"gh_markerdeletecheckbox\" value=\"markerdelete\"><span>Delete this point</span>&nbsp;&nbsp;</label>";
+    txt += "<BR><label style=\"margin-left:120px;\"><input type=\"checkbox\" class=\"filled-in\" id=\"gh_markerdeletecheckbox\" value=\"markerdelete\"><span>Delete this</span>&nbsp;&nbsp;</label>";
     
     PointDialog.setContent(txt);
     PointDialog.open();
