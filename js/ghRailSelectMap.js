@@ -21,8 +21,57 @@ var GH_FIELDINDEX = {
     uncodelist : null,
     fieldlist : null
 }
+function ghCreateSelectCheckBoxList() {
+    var clist = GH_FIELDINDEX.uncodelist;
+    var list = [];
+    for(var key in clist){    
+	list.push({
+	    "name" : __uncode2country(key,""),
+	    "code" : key,
+	    "flag" : __uncode2flaggif(key)
+	});
+    }
 
-function ghCreateSelectList() {
+    list.sort(function(a,b){
+	if(a.name<b.name) return -1;
+	if(a.name>b.name) return 1;
+	return 0;
+    });
+    
+    var str = "";
+    
+    for(var key in list){    
+ 	str += '<label>';
+        str += '<input name="selectuncode" value="' + list[key].code + '" type="checkbox"/>';
+	str += '<span>' + '<img src="' + list[key].flag + '">&nbsp;' + list[key].name + '</span>';
+        str += '</label><BR>';   
+    }
+    
+    $('#gh_country_list').append(str);
+        
+    $('input[name="selectuncode"]').change(function(){
+        var ary = {};
+        $('[name="selectuncode"]:checked').each(function(index, element){
+	    var ulist = GH_FIELDINDEX.uncodelist[ $(element).val() ];
+	    for(var i = 0,ilen = ulist.length; i < ilen; i++) {
+		var tc = ulist[i];
+		var tcobj = GH_FIELDINDEX.fieldlist[tc];
+		if ( ary[tc] ) {
+		    // NOP Duplicate
+		} else {
+		    ary[tc] = {
+			"polyline" : tcobj.polyline,
+			"name" : tcobj.name
+		    }
+		}
+	    }
+        });
+	ghChangeSelectArray( ary );
+    });
+
+}
+
+function ghCreateSelectRadioList() {
     var clist = GH_FIELDINDEX.uncodelist;
     var list = [];
     for(var key in clist){    
@@ -117,7 +166,23 @@ function ghLoadPolyline(uri,tcode,name) {
 	console.log( msg );
     });
 }
+function ghChangeSelectArray(ary){
+    GH_POLYLINE_COUNT = 0;
+    for(var key in GH_POLYLINE){
+	if ( GH_LMAP.hasLayer(GH_POLYLINE[key]) ) {
+	    GH_POLYLINE[key].remove();
+	}
+    }
+    GH_POLYLINE = {};
 
+    for(var key in ary){
+        var uriary = ary[key].polyline;
+	var name = ary[key].name;
+        for(var j = 0,jlen = uriary.length; j < jlen; j++) {
+            ghLoadPolyline(ghGetResourceUri(uriary[j]),key,name);
+        }          
+    }
+}
 function ghChangeSelectList(val){
     GH_POLYLINE_COUNT = 0;
     for(var key in GH_POLYLINE){
@@ -158,9 +223,9 @@ $.ajax({
     //
     GH_FIELDINDEX.uncodelist = res.uncodelist;
     GH_FIELDINDEX.fieldlist = res.fieldlist;
-    ghCreateSelectList();
+    //ghCreateSelectRadioList();
+    ghCreateSelectCheckBoxList();
 
-    //$('.sidenav').sidenav('open');
     sidebar.show();
 
 }).fail(function(XMLHttpRequest, textStatus, errorThrown){

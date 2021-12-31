@@ -503,37 +503,6 @@ function ghCheckTimeFormat(data) {
     return true;
     
 };
-function ghCheckTimeFormat4DIGIT(data) {
-
-    if( isNaN(data) ) return false;
-
-    var len = data.length;
-    if ( len > 4 ) return false;
-
-    var str = "";
-    if ( len == 1 ) {
-	// M -> 000M
-	str = "000" + data;
-    } else if ( len == 2 ) {
-	// MM -> 00MM
-	str = "00" + data;
-    } else if ( len == 3 ) {
-	// HMM -> 0HMM
-	str = "0" + data;
-    } else {
-	// HHMM
-	str = "" + data;
-    }
-
-    var h = parseInt(str.substr(0,2),10);
-    var m = parseInt(str.substr(2,2),10);
-
-    if ( h < 0 || h > 23 ) return false;
-    if ( m < 0 || m > 59 ) return false;
-
-    return true;
-    
-};
 
 function ghAddTimeStr(str,min) {
 
@@ -581,45 +550,6 @@ function ghAddTimeStr(str,min) {
     } else {
 	return "" + h + m + sec;
     }
-
-}
-function ghAddTimeStr4DIGIT(str,min) {
-
-    var len = str.length;
-    var ret = "";
-    if ( len == 1 ) {
-	// M -> 000M
-	ret = "000" + str;
-    } else if ( len == 2 ) {
-	// MM -> 00MM
-	ret = "00" + str;
-    } else if ( len == 3 ) {
-	// HMM -> 0HMM
-	ret = "0" + str;
-    } else if ( len > 4 ) {
-	ret = str.substr(0,4);
-    } else {
-	// HHMM
-	ret = "" + str;
-    }
-
-    var h = parseInt(ret.substr(0,2),10);
-    var m = parseInt(ret.substr(2,2),10);
-
-
-    var tm = 60 * h + m + min;
-
-    h = Math.floor(tm/60);
-    m = parseInt(tm % 60,10);
-
-    if ( h < 10 ) {
-	h = "0" + h;
-    }
-    if ( m < 10 ) {
-	m = "0" + m;
-    }
-
-    return "" + h + m;
 
 }
 function __ghAddCols() {
@@ -956,34 +886,6 @@ function ghCreateISOTimeFormat(d,str) {
     }
     return ret;
 }
-function ghCreateISOTimeFormat4DIGIT(d,str) {
-    if( isNaN(str) ) return "0T00:00:00";
-    
-    var day = parseInt(d,10);
-    if( isNaN(day) ) day = 0;
-    
-    var len = str.length;
-    day = "" + day + "T";
-    
-    if ( len < 1 || len > 4 ) {
-        return day + "00:00:00";
-    }
-    var ret = "";
-    if ( len == 1 ) {
-	// M -> 000M
-	ret = day + "00:0" + str + ":00";
-    } else if ( len == 2 ) {
-	// MM -> 00MM
-	ret = day + "00:" + str + ":00";
-    } else if ( len == 3 ) {
-	// HMM -> 0HMM
-        ret = day + "0" + str.substr(0,1) + ":" + str.substr(1,2) + ":00";        
-    } else {
-	// HHMM
-        ret = day + "" + str.substr(0,2) + ":" + str.substr(2,2) + ":00";
-    }
-    return ret;
-};
 
 function ghCreateNewTable(key) {
     var stations = GH_DATA.stations[key];

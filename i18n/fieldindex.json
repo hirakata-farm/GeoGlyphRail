@@ -58,6 +58,12 @@
             "polyline": ["lines/566GOLDENPASS/566_0E.polyline","lines/566GOLDENPASS/566_0S.polyline"],
             "uncode": ["UN756"]
         },      
+        "575RHB": {
+            "name": "__575RHB__",
+            "file": "fields/575RHB.field",
+            "polyline": ["lines/575RHB/575_2W.polyline","lines/575RHB/575_1U.polyline"],
+            "uncode": ["UN756"]
+        },      
         "581TND": {
             "name": "__581TND__",
             "file": "fields/581TND.field",
@@ -395,7 +401,7 @@
         "UN705": ["1302BOHINJ","1315ICS"],
         "UN724": ["650AVE","670CF"],
         "UN752": ["740SJ"],
-        "UN756": ["341LYRIA","610LOTSCH","546RHB","566GOLDENPASS"],
+        "UN756": ["341LYRIA","610LOTSCH","546RHB","566GOLDENPASS","575RHB"],
         "UN792": ["3900YHT"],
         "UN826": ["10ES12ES","173NT","230ENTERPRISE"],
 	"UN840": ["320ACELA"],
