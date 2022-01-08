@@ -11,6 +11,7 @@ var GH_DATA = null; // from master ghGeoMap.js
 var GH_REV = '5.1';
 
 var GH_TABLE = {}
+var GH_TABLE_DELIMITER = "_C_";
 var GH_CURRENT_TABLE_KEY = "";
 //var GH_TABLE = {
 //    sheet : null,
@@ -784,13 +785,13 @@ function ghBroadcastSecondaryReceiveMessage(data) {
 	GH_TABLE = {};
 	var html = "<ul id=\"table-tabs\" class=\"tabs tabs-fixed-width\">";
 	for ( var key in GH_DATA.stations ) {
-	    var numstr = "#table-tab-" + key;
+	    var numstr = "#table-tab" + GH_TABLE_DELIMITER + key;
 	    html += "<li class=\"tab\"><a href=\"" + numstr + "\">" + key + "</a></li>";
 	}
 	html += "</ul>";
 	for ( var key in GH_DATA.stations ) {
-	    var numstr = "table-tab-" + key;
-	    var spdstr = "spreadsheet-" + key;
+	    var numstr = "table-tab" + GH_TABLE_DELIMITER + key;
+	    var spdstr = "spreadsheet" + GH_TABLE_DELIMITER + key;
 	    html += "<div id=\"" + numstr + "\" class=\"col s12\"><div id=\"" + spdstr + "\"></div></div>";
 
 	    GH_TABLE[key] = {
@@ -815,8 +816,8 @@ function ghBroadcastSecondaryReceiveMessage(data) {
 
 function ghSelectCurrentTab(e) {
     // e = DOM object
-    var istr = e.id.split("-");
-    var key = istr[2];
+    var istr = e.id.split(GH_TABLE_DELIMITER);
+    var key = istr[1];
     GH_CURRENT_TABLE_KEY = key;
 }
 function ghSetupTabSheets() {
@@ -827,15 +828,19 @@ function ghSetupTabSheets() {
     var n = 0;
     var startkey = "";
     for ( var key in GH_DATA.stations ) {
-	var spdstr = "spreadsheet-" + key;
+	var spdstr = "spreadsheet" + GH_TABLE_DELIMITER + key;
 	GH_CURRENT_TABLE_KEY = key;
 	if ( n == 0 ) startkey = key;
 	GH_TABLE[key].sheet = $( '#' + spdstr ).jspreadsheet(GH_TABLE_OPTIONS);
 	ghCreateNewTable(key);
 	n++;
     }
-    $('.tabs').tabs('select', startkey);
-    GH_CURRENT_TABLE_KEY = startkey;
+    if ( startkey != "" ) {
+	$('.tabs').tabs('select', startkey);
+	GH_CURRENT_TABLE_KEY = startkey;
+    } else {
+        console.log("Cannot exist station key");
+    }
 }
 
 

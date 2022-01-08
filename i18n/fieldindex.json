@@ -340,6 +340,12 @@
 	     "polyline" : ["lines/5132AFROSIYOB/5132_5W.polyline"],
 	     "uncode" : [ "UN860" ]
 	},
+	"6051BSE": {
+	     "name" : "__6051BSE__",
+	     "file" : "fields/6051BSE.field",
+	     "polyline" : ["lines/6051BSE/6051_2S.polyline"],
+	     "uncode" : [ "UN356" ]
+	},
 	"6140DHR": {
 	     "name" : "__6140DHR__",
 	     "file" : "fields/6140DHR.field",
@@ -377,7 +383,7 @@
         "UN276": ["18T20THALYS", "850ICE", "943MVR"],        
         "UN300": ["1400OSE"],
 	"UN348": ["1270IC"],
-	"UN356": ["6140DHR"],        
+	"UN356": ["6051BSE","6140DHR"],        
 	"UN360": ["7407PT"],        
         "UN372": ["240IE","230ENTERPRISE"],
 	"UN376": ["3800KDR"],        
