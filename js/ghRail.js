@@ -3545,7 +3545,7 @@ function ghGetFieldGLTF() {
 	    ghGetFieldGltfComponent(i,GH_FIELD.units[i]);
 	}
     }).fail(function(XMLHttpRequest, textStatus,errorThrown){
-	var msg = "Default GLTF Component Cannot load " + file + "  ";
+	var msg = "Default GLTF Component Cannot load " + uri + "  ";
 	msg += " XMLHttpRequest " + XMLHttpRequest.status ;
 	msg += " textStatus " + textStatus ;
 	console.log( msg );
@@ -3634,7 +3634,7 @@ function ghGetLinePolyline(id) {
                 //ghSetFieldDataInitialPosition(); move to trainfinished
             
             }).fail(function(XMLHttpRequest, textStatus,errorThrown){
-                var msg = "Polyline data Cannot load " + file + "  ";
+                var msg = "Polyline data Cannot load " + uri + "  ";
                 msg += " XMLHttpRequest " + XMLHttpRequest.status ;
                 msg += " textStatus " + textStatus ;
                 console.log( msg );
@@ -3719,7 +3719,7 @@ function ghGetFieldLine(file) {
         ghWaitFieldLineLoaded(ghGetFieldLineFinished);
         
     }).fail(function(XMLHttpRequest, textStatus,errorThrown){
-	var msg = "Field Component Cannot load  " + id + " " + file + "  ";
+	var msg = "Field Component Cannot load  " + file + "  ";
 	msg += " XMLHttpRequest " + XMLHttpRequest.status ;
 	msg += " textStatus " + textStatus ;
 	console.log( msg );

@@ -40,6 +40,12 @@
             "polyline": ["lines/341LYRIA/341LYRIA_2GS.polyline", "lines/341LYRIA/341LYRIA_2LS.polyline", "lines/341LYRIA/341LYRIA_2ZS.polyline"],
             "uncode": ["UN250", "UN756"]
         },
+	   "350TGV": {
+	     "name" : "__350TGV__",
+	     "file" : "fields/350TGV.field",
+	       "polyline" : ["lines/350TGV/340_6S.polyline","lines/350TGV/342_6S.polyline","lines/350TGV/350_6S.polyline","lines/350TGV/355_6S.polyline"],
+	     "uncode" : [ "UN250" ]
+	    },
 	   "390TGV": {
 	     "name" : "__390TGV__",
 	     "file" : "fields/390TGV.field",
@@ -379,7 +385,7 @@
         "UN191": ["1330ICN"],
         "UN203": ["1160SC"],
         "UN246": ["790VR"],
-        "UN250": ["10ES12ES", "18T20THALYS", "341LYRIA", "390TGV","581TND"],
+        "UN250": ["10ES12ES", "18T20THALYS", "341LYRIA","350TGV", "390TGV","581TND"],
         "UN276": ["18T20THALYS", "850ICE", "943MVR"],        
         "UN300": ["1400OSE"],
 	"UN348": ["1270IC"],
