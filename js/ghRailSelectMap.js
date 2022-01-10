@@ -50,26 +50,58 @@ function ghCreateSelectCheckBoxList() {
     $('#gh_country_list').append(str);
         
     $('input[name="selectuncode"]').change(function(){
-        var ary = {};
-        $('[name="selectuncode"]:checked').each(function(index, element){
-	    var ulist = GH_FIELDINDEX.uncodelist[ $(element).val() ];
-	    for(var i = 0,ilen = ulist.length; i < ilen; i++) {
-		var tc = ulist[i];
-		var tcobj = GH_FIELDINDEX.fieldlist[tc];
-		if ( ary[tc] ) {
-		    // NOP Duplicate
-		} else {
-		    ary[tc] = {
-			"polyline" : tcobj.polyline,
-			"name" : tcobj.name
-		    }
-		}
-	    }
-        });
-	ghChangeSelectArray( ary );
+	ghChengeUNcodeEvent();
     });
 
 }
+function ghChengeUNcodeEvent() {
+    var ary = {};
+    $('[name="selectuncode"]:checked').each(function(index, element){
+	var ulist = GH_FIELDINDEX.uncodelist[ $(element).val() ];
+	for(var i = 0,ilen = ulist.length; i < ilen; i++) {
+	    var tc = ulist[i];
+	    var tcobj = GH_FIELDINDEX.fieldlist[tc];
+	    if ( ary[tc] ) {
+		// NOP Duplicate
+	    } else {
+		ary[tc] = {
+		    "polyline" : tcobj.polyline,
+		    "name" : tcobj.name
+		}
+	    }
+	}
+    });
+    ghChangeSelectArray( ary );
+}
+function ghAllCheckBoxButtonEvent() {
+
+    $('#checkallbutton').on('click', function() {
+        //$('[name="selectuncode"]').prop('checked',true);
+
+        $('[name="selectuncode"]').each(function(index, element){
+	    if ( $(element).prop('checked') ) {
+		// Already checked NOP
+	    } else {
+		$(element).prop('checked',true);
+	    }
+	});
+	ghChengeUNcodeEvent();
+    });
+
+    $('#uncheckallbutton').on('click', function() {
+	//$('[name="selectuncode"]').prop('checked',false);
+        $('[name="selectuncode"]').each(function(index, element){
+	    if ( $(element).prop('checked') ) {
+		$(element).prop('checked',false);
+	    } else {
+		// Already Un checked NOP
+	    }
+	});
+	ghChengeUNcodeEvent();
+    });
+
+}
+
 
 function ghCreateSelectRadioList() {
     var clist = GH_FIELDINDEX.uncodelist;
@@ -104,12 +136,13 @@ function ghCreateSelectRadioList() {
     });
 
 }
+
 function ghPopupContext(tc,name) {
     var txt = "<a href=\"rail3m.html?tc=" + tc + "\" title=\"" + tc + "\">" + name + "</a>";
     return txt;
 }
 
-function ghFitMaps () {
+function ghFitMapsObsolete () {
     var maxlen = 0;
     var maxkey = "";
     for(var key in GH_POLYLINE){
@@ -124,6 +157,32 @@ function ghFitMaps () {
     if ( maxkey != "" ) {
         GH_LMAP.fitBounds( GH_POLYLINE[maxkey].getBounds() );
     }
+}
+function ghFitMaps () {
+    var west = 0;
+    var east = 0;
+    var north = 0;
+    var south = 0;
+    for(var key in GH_POLYLINE){
+	var p = GH_POLYLINE[key].getBounds();
+
+	var w = p.getWest();
+	if ( w < west ) west = w;
+
+	var e = p.getEast();
+	if ( e > east ) east = e;
+
+	var n = p.getNorth();
+	if ( n > north ) north = n;
+
+	var s = p.getSouth();
+	if ( s < south ) south = s;
+    }
+
+    GH_LMAP.fitBounds( [
+	[ north, west ] , [ south , east ] 
+    ]);
+
 }
             
 function ghLoadPolyline(uri,tcode,name) {
@@ -225,8 +284,8 @@ $.ajax({
     GH_FIELDINDEX.fieldlist = res.fieldlist;
     //ghCreateSelectRadioList();
     ghCreateSelectCheckBoxList();
-
     sidebar.show();
+    ghAllCheckBoxButtonEvent();
 
 }).fail(function(XMLHttpRequest, textStatus, errorThrown){
     var msg = "Index data cannot load " ;
