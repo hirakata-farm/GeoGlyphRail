@@ -1361,7 +1361,8 @@ function ghFileSelectWayJSON( data ) {
 	var n = b + ".timejson";
 	$('#gh_timefilename').val(n);
 	$("#gh_linename").val(b);
-        $('#gh_linejsonname').html(filename);
+        //$('#gh_linejsonname').html(filename);
+	$('#gh_linejsonname').html(n);
 	GH_TABLE = {};
 
 	var st = {};
