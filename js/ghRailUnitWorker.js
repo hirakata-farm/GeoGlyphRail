@@ -753,7 +753,7 @@ function __ghCreateUnitGeometryArray( data ) {
     
     for ( var i=0,ilen=UNITGEOM.length; i < ilen; i++ ) {
         var o = UNITGEOM[i];
-       if ( o.sta != "x" && o.typ == "B" && i != ilen-1 ) {
+	if ( o.sta != "x" && o.typ == "B" && i != ilen-1 ) {
            var dis = __ghCalcGeometryDistance(i,i+1);
            if ( dis > GH_DISTANCEFROMCENTER ) {
                 var ratio = GH_DISTANCEFROMCENTER / dis;
@@ -796,36 +796,42 @@ function __ghLoadUnitGeometries(id,routearray, lineid, routename, way) {
     var geo = new XMLHttpRequest();
     var ret = [];
     for ( var i = 0,ilen=routearray.length; i<ilen; i++ ) {
-	    var uri = ghGetResourceUri(
-    	    GH_FIELD.linejson[ lineid ].baseuri
-		    + GH_FIELD.linejson[ lineid ].way[way].geometry[ routearray[i] ]);
-        geo.open('GET', uri , false);
-
+	var file = GH_FIELD.linejson[ lineid ].way[way].geometry[ routearray[i] ];
+	if (typeof file === "undefined") {
+	    // NOP
+	    console.log( lineid );
+	    console.log( way );
+	    console.log( GH_FIELD.linejson[ lineid ].way[way].geometry );
+	    console.log( routearray[i] );
+	} else {
+	    var uri = ghGetResourceUri( GH_FIELD.linejson[ lineid ].baseuri + file );
+            geo.open('GET', uri , false);
 	    geo.send();
 	    if (geo.status == 200) {
-            if (geo.response) {
-		        var r = geo.responseText;
-		        var a = r.split(/\n/);
-		        var startline = 1;
+		if (geo.response) {
+		    var r = geo.responseText;
+		    var a = r.split(/\n/);
+		    var startline = 1;
 
-		        //  concat array 
-		        for ( var j = startline,jlen=a.length; j<jlen; j++ ) {
-        		    if ( a[j] != "" ) {
-			        ret.push ( a[j] );
-		            }
-		        }
-	        }
+		    //  concat array 
+		    for ( var j = startline,jlen=a.length; j<jlen; j++ ) {
+        		if ( a[j] != "" ) {
+			    ret.push ( a[j] );
+			}
+		    }
+		}
 	    } else {
-    	    var msg = "Unit geometry data load error " + geo.status;
-	        console.log( msg );
+    		var msg = "Unit geometry data load error " + geo.status + " " + uri;
+		console.log( msg );
 	    }
+	}
     }
 
     if ( ret.length > 1 ) {
     	__ghCreateUnitGeometryArray( ret );
     	if ( GH_USE_TUNNEL ) __ghCalculateUnitAltitude();
     	__ghCreateUnitTimetable(id);
-	    __ghCreateUnitCzml(id);
+	__ghCreateUnitCzml(id);
     }
     
 }

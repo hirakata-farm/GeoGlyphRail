@@ -11,6 +11,7 @@
 //     |- turfRail.min.js
 //     |- ghRail.js
 //     |- ghRailWeather.js
+//     |    |- suncalc.js
 //     |- ghRailBroadcast.js  ( Communicate for ghRailTime.js )
 //     |- ghRailGeocodeWorker.js (thread)
 //     |- ghRailUnitWorker.js ( thread )

@@ -154,6 +154,12 @@
             "polyline": ["lines/850ICE/850ICE_10N.polyline"],
             "uncode": ["UN276"]
         },
+        "920ICE": {
+            "name": "__920ICE__",
+            "file": "fields/920ICE.field",
+            "polyline": ["lines/920ICE/920_6S.polyline"],
+            "uncode": ["UN276"]
+        },
         "943MVR": {
             "name": "__943MVR__",
             "file": "fields/943MVR.field",
@@ -404,7 +410,7 @@
         "UN203": ["1160SC"],
         "UN246": ["790VR"],
         "UN250": ["10ES12ES", "18T20THALYS","305TGV", "341LYRIA","350TGV", "390TGV","581TND"],
-        "UN276": ["18T20THALYS", "810ICE", "850ICE", "943MVR"],        
+        "UN276": ["18T20THALYS", "810ICE", "850ICE", "920ICE", "943MVR"],        
         "UN300": ["1400OSE"],
 	"UN348": ["1270IC"],
 	"UN356": ["6051BSE","6140DHR"],        
