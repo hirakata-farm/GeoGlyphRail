@@ -27,7 +27,7 @@ var GH_3DTILE = {
     workeruri : '../js/ghRail3DtileWorker.js',
     area: 400,
     tilemax : 4,
-    maxpolygon : 3000,
+    maxpolygon : 2000,
     distanceDisplay: 1000,
     withoutbuildings : false,
     withtexture: false,

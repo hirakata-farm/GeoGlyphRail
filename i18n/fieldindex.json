@@ -214,6 +214,12 @@
             "polyline": ["lines/1197ZSR/1197_0N.polyline"],
             "uncode": ["UN703"]
         },
+        "1250EC": {
+            "name": "__1250EC__",
+            "file": "fields/1250EC.field",
+            "polyline": ["lines/1250EC/1250_1W.polyline"],
+            "uncode": ["UN348","UN040","UN276"]
+        },        
         "1270IC": {
             "name": "__1270IC__",
             "file": "fields/1270IC.field",
@@ -376,6 +382,12 @@
 	     "polyline" : ["lines/6051BSE/6051_2S.polyline"],
 	     "uncode" : [ "UN356" ]
 	},
+	"7055KTM": {
+	     "name" : "__7055KTM__",
+	     "file" : "fields/7055KTM.field",
+	     "polyline" : ["lines/7055KTM/7055_6S.polyline"],
+	     "uncode" : [ "UN458" ]
+	},
 	"6140DHR": {
 	     "name" : "__6140DHR__",
 	     "file" : "fields/6140DHR.field",
@@ -398,7 +410,7 @@
     "uncodelist": {
 	"UN012": ["2543SNTF"],
 	"UN036": ["9017XPT"],
-        "UN040": ["950RJ","955ZILLERTAL","957PINZGAUER","994MARIAZELL"],
+        "UN040": ["950RJ","955ZILLERTAL","957PINZGAUER","994MARIAZELL","1250EC"],
         "UN056": ["10ES12ES", "18T20THALYS"],
 	"UN100": ["1500BDZ"],
 	"UN124": ["21VIA"],
@@ -410,9 +422,9 @@
         "UN203": ["1160SC"],
         "UN246": ["790VR"],
         "UN250": ["10ES12ES", "18T20THALYS","305TGV", "341LYRIA","350TGV", "390TGV","581TND"],
-        "UN276": ["18T20THALYS", "810ICE", "850ICE", "920ICE", "943MVR"],        
+        "UN276": ["18T20THALYS", "810ICE", "850ICE", "920ICE", "943MVR","1250EC"],        
         "UN300": ["1400OSE"],
-	"UN348": ["1270IC"],
+	"UN348": ["1270IC","1250EC"],
 	"UN356": ["6051BSE","6140DHR"],        
 	"UN360": ["7407PT"],        
         "UN372": ["240IE","230ENTERPRISE"],
@@ -422,6 +434,7 @@
 	"UN410": ["5500KTX"],
 	"UN418": ["7200LAO"],
 	"UN442": ["390TGV"],
+	"UN458": ["7055KTM"],
 	"UN504": ["2500LGV"],        
         "UN528": ["18T20THALYS"],
 	"UN554": ["9750KIWI"],        
