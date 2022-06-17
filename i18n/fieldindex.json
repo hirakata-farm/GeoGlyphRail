@@ -1,7 +1,7 @@
 {
     "type": "geoglyph rail 3D",
     "version": "5.1",
-    "urilist_local": ["//192.168.2.11/Geo5/rail/RSC/", "//192.168.2.11/Geo5/rail/RSC/"],
+    "urilist_local": ["//192.168.2.11/local_www/rail/RSC/", "//192.168.2.11/local_www/rail/RSC/"],
     "urilist": ["//earth.geoglyph.info/rail/RSC/", "//earth.geoglyph.info/rail/RSC/"],
     "fieldlist": {
         "10ES12ES": {
@@ -274,6 +274,12 @@
 	     "polyline" : [ "lines/1680CFR/1680_0E.polyline" ],
 	     "uncode" : [ "UN642" ]
 	    },
+	   "1890EL": {
+	     "name" : "__1890EL__",
+	     "file" : "fields/1890EL.field",
+	     "polyline" : [ "lines/1890EL/1890_2S.polyline" ],
+	     "uncode" : [ "UN233" ]
+	    },
         "1900SAPSAN": {
             "name": "__1900SAPSAN__",
             "file": "fields/1900SAPSAN.field",
@@ -426,6 +432,7 @@
         "UN156B": ["7810THSRC"],
         "UN191": ["1330ICN"],
         "UN203": ["1160SC","1175EC"],
+	"UN233": ["1890EL"],
         "UN246": ["790VR"],
         "UN250": ["10ES12ES", "18T20THALYS","305TGV", "341LYRIA","350TGV", "390TGV","581TND"],
         "UN276": ["18T20THALYS", "810ICE", "850ICE", "920ICE", "943MVR","1250EC"],        
