@@ -957,7 +957,7 @@ function ghInsertUnitSortData(id) {
             ret.push(odat);
         }
     }
-    
+
     //
     //  Sort
     //

@@ -82,6 +82,12 @@
             "polyline": ["lines/581TND/581_1S.polyline"],
             "uncode": ["UN380", "UN250"]
         },      
+        "596PVR": {
+            "name": "__596PVR__",
+            "file": "fields/596PVR.field",
+            "polyline": ["lines/596PVR/596_0E.polyline"],
+            "uncode": ["UN380"]
+        },      
         "610LOTSCH": {
             "name": "__610LOTSCH__",
             "file": "fields/610LOTSCH.field",
@@ -454,7 +460,7 @@
 	"UN360": ["7407PT"],        
         "UN372": ["240IE","230ENTERPRISE"],
 	"UN376": ["3800KDR"],        
-        "UN380": ["600FR","581TND"],        
+        "UN380": ["596PVR","581TND","600FR"],
         "UN404": ["3260SGR"],
 	"UN410": ["5500KTX"],
 	"UN418": ["7200LAO"],
