@@ -58,6 +58,12 @@
 	     "polyline" : ["lines/390TGV/390_4E.polyline"],
 	     "uncode" : [ "UN250", "UN442" ]
 	    },
+	   "440IC": {
+	     "name" : "__440IC__",
+	     "file" : "fields/440IC.field",
+	     "polyline" : ["lines/440IC/440_3S.polyline"],
+	     "uncode" : [ "UN056", "UN442" ]
+	    },
         "546RHB": {
             "name": "__546RHB__",
             "file": "fields/546RHB.field",
@@ -256,6 +262,12 @@
             "polyline": ["lines/1330ICN/1330_6S.polyline", "lines/1330ICN/1320_6E.polyline"],
             "uncode": ["UN191"]
         },      
+        "1340IC": {
+            "name": "__1340IC__",
+            "file": "fields/1340IC.field",
+            "polyline": ["lines/1340IC/1340_5W.polyline"],
+            "uncode": ["UN348","UN191"]
+        },      
 	   "1370ZS": {
 	     "name" : "__1370ZS__",
 	     "file" : "fields/1370ZS.field",
@@ -303,6 +315,12 @@
             "file": "fields/1900SAPSAN.field",
             "polyline": ["lines/1900SAPSAN/1900_1N.polyline"],
             "uncode": ["UN643"]
+        },
+        "1970GRZ": {
+            "name": "__1970GRZ__",
+            "file": "fields/1970GRZ.field",
+            "polyline": ["lines/1970GRZ/1970_0W.polyline"],
+            "uncode": ["UN268"]
         },
 	   "2500LGV": {
 	     "name" : "__2500LGV__",
@@ -441,21 +459,22 @@
 	"UN012": ["2543SNTF"],
 	"UN036": ["9017XPT"],
         "UN040": ["950RJ","955ZILLERTAL","957PINZGAUER","994MARIAZELL","1250EC"],
-        "UN056": ["10ES12ES", "18T20THALYS"],
+        "UN056": ["10ES12ES", "18T20THALYS","440IC"],
 	"UN100": ["1500BDZ"],
 	"UN124": ["21VIA"],
 	"UN144": ["6306ICE"],
 	"UN152": ["2430EFE"],
 	"UN156": ["5367CRH"],
         "UN156B": ["7810THSRC"],
-        "UN191": ["1330ICN"],
+        "UN191": ["1330ICN","1340IC"],
         "UN203": ["1160SC","1175EC"],
 	"UN233": ["1880EL","1890EL"],
         "UN246": ["790VR"],
         "UN250": ["10ES12ES", "18T20THALYS","305TGV", "341LYRIA","350TGV", "390TGV","581TND"],
+	"UN268": ["1970GRZ"],
         "UN276": ["18T20THALYS", "810ICE", "850ICE", "920ICE", "943MVR","1250EC"],        
         "UN300": ["1400OSE"],
-	"UN348": ["1175EC","1270IC","1250EC"],
+	"UN348": ["1175EC","1270IC","1250EC","1340IC"],
 	"UN356": ["6051BSE","6140DHR"],        
 	"UN360": ["7407PT"],        
         "UN372": ["240IE","230ENTERPRISE"],
@@ -465,7 +484,7 @@
 	"UN410": ["5500KTX"],
 	"UN418": ["7200LAO"],
 	"UN428": ["1830LD"],
-	"UN442": ["390TGV"],
+	"UN442": ["390TGV","440IC"],
 	"UN458": ["7055KTM"],
 	"UN504": ["2500LGV"],        
         "UN528": ["18T20THALYS"],
