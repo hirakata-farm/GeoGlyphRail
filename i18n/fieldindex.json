@@ -124,6 +124,12 @@
             "polyline": ["lines/600FR/600FR_5N.polyline"],
             "uncode": ["UN380"]
         },       
+        "605FR": {
+            "name": "__605FR__",
+            "file": "fields/605FR.field",
+            "polyline": ["lines/605FR/605_1E.polyline"],
+            "uncode": ["UN380"]
+        },       
         "690AP": {
             "name": "__690AP__",
             "file": "fields/690AP.field",
@@ -479,7 +485,7 @@
 	"UN360": ["7407PT"],        
         "UN372": ["240IE","230ENTERPRISE"],
 	"UN376": ["3800KDR"],        
-        "UN380": ["596PVR","581TND","600FR"],
+        "UN380": ["596PVR","581TND","600FR","605FR"],
         "UN404": ["3260SGR"],
 	"UN410": ["5500KTX"],
 	"UN418": ["7200LAO"],
